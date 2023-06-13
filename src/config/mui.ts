@@ -1,6 +1,15 @@
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 1072,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
   palette: {
     background: {
       default: "#fff",
@@ -21,6 +30,28 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: "'Nunito Sans', sans-serif",
+  },
+  components: {
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          fontWeight: 700,
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: ({ theme }) =>
+          theme.unstable_sx({
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.background.default,
+          }),
+        text: {
+          fontWeight: 700,
+          textTransform: "none",
+        },
+      },
+    },
   },
 });
 
