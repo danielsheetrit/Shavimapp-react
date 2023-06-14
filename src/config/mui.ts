@@ -32,11 +32,29 @@ const theme = createTheme({
     fontFamily: "'Nunito Sans', sans-serif",
   },
   components: {
-    MuiTypography: {
+    MuiOutlinedInput: {
+      styleOverrides: {
+        notchedOutline: {
+          border: "none",
+        },
+      },
+    },
+    MuiInputBase: {
       styleOverrides: {
         root: {
-          fontWeight: 700,
+          borderRadius: "5px !important",
+          backgroundColor: "#F7F7F8",
+          fontSize: 12,
         },
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: ({ theme }) =>
+          theme.unstable_sx({
+            color: theme.palette.text.primary,
+            fontWeight: 700,
+          }),
       },
     },
     MuiButton: {
@@ -45,6 +63,9 @@ const theme = createTheme({
           theme.unstable_sx({
             backgroundColor: theme.palette.primary.main,
             color: theme.palette.background.default,
+            "&:hover": {
+              backgroundColor: theme.palette.primary.main,
+            },
           }),
         text: {
           fontWeight: 700,

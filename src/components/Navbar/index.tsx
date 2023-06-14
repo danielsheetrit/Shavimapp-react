@@ -9,11 +9,14 @@ import {
   Avatar,
   useMediaQuery,
 } from "@mui/material";
+
+// locals
+import useAuth from "../../hooks/useAuth";
 import Image from "../Image";
 import Logo from "../../assets/img/logo.svg";
 import AvatarExample from "../../assets/img/avatar.svg";
 
-const port = import.meta.env.VITE_REACT_APP_PORT;
+const url = import.meta.env.VITE_REACT_APP_BASE_URL;
 
 type EventsObjecType = { [key: string]: string };
 type SingleEvent = { time: string; event: string };
@@ -22,12 +25,12 @@ export default function Navbar() {
   const [events, setEvents] = useState<EventsObjecType | null>(null);
   const [nextEvent, setNextEvent] = useState<SingleEvent | null>(null);
 
+  const { user: { username } } = useAuth();
   const theme = useTheme();
   const tabletBP = useMediaQuery("(min-width:750px)");
   const mobileBP = useMediaQuery("(min-width:400px)");
 
-  const userName = "Avner";
-  const language = "en";
+  const language = "en";  // TODO
 
   const getNextEvent = useCallback((events: EventsObjecType) => {
     const now = new Date();
@@ -45,7 +48,7 @@ export default function Navbar() {
 
   const getEvents = useCallback(async () => {
     try {
-      const res = await fetch(`${port}/events/event-by-language/${language}`);
+      const res = await fetch(`${url}/events/event-by-language/${language}`);
 
       if (res.ok) {
         const data = await res.json();
@@ -82,7 +85,7 @@ export default function Navbar() {
 
         {tabletBP && (
           <Stack>
-            <Typography>Hi {userName},</Typography>
+            <Typography>Hi {username},</Typography>
             <Typography variant="h4">Welcome back👋</Typography>
           </Stack>
         )}
@@ -103,7 +106,7 @@ export default function Navbar() {
           </Button>
           <Typography sx={{ fontWeight: 400, mt: 1 }}>
             {nextEvent
-              ? `${nextEvent.time}am: ${nextEvent.event}`
+              ? `${nextEvent.time}: ${nextEvent.event}`
               : `No more events today.`}
           </Typography>
         </Stack>
