@@ -8,22 +8,46 @@ import { withGuestGuard } from "./hoc/withGuestGuard";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "./config/mui";
 
+// notification
+import { SnackbarProvider } from "notistack";
+
 // pages
 import User from "./pages/User";
 import Login from "./pages/Login";
+import Admin from "./pages/Admin";
+import Register from "./pages/Register";
 
 export default function App() {
   const UserWithAG = withAuthGuard(User, ["user"]);
+  const AdminWithAG = withAuthGuard(Admin, ["admin"]);
   const LoginWithGG = withGuestGuard(Login);
+  const RegisterWithGG = withGuestGuard(Register);
 
   return (
     <ThemeProvider theme={theme}>
-      <Router>
-        <Routes>
-          <Route path="/user" element={<UserWithAG />} />
-          <Route path="/login" element={<LoginWithGG />} />
-        </Routes>
-      </Router>
+      <SnackbarProvider 
+        autoHideDuration={2500}
+        preventDuplicate
+        style={{
+          backgroundColor: "white",
+          fontFamily: "'Nunito Sans', sans-serif",
+          color: theme.palette.text.primary,
+          borderRadius: '5px !important',
+          padding: '3px 15px'
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        dense
+      >
+        <Router>
+          <Routes>
+            <Route path="/" element={<LoginWithGG />} />
+            <Route path="/user" element={<UserWithAG />} />
+            <Route path="/admin" element={<AdminWithAG />} />
+            <Route path="/login" element={<LoginWithGG />} />
+            <Route path="/register" element={<RegisterWithGG />} />
+          </Routes>
+        </Router>
+      </SnackbarProvider>
     </ThemeProvider>
   );
 }

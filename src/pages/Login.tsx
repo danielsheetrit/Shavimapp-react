@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import {
   Box,
   Button,
-  IconButton,
-  InputAdornment,
   MenuItem,
   Select,
   Stack,
@@ -12,13 +10,12 @@ import {
   Typography,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import Visibility from "@mui/icons-material/VisibilityOutlined";
-import VisibilityOff from "@mui/icons-material/VisibilityOffOutlined";
 
 // locals
 import axiosInstance from "../utils/axios";
 import useAuth from "../hooks/useAuth";
 import AuthHero from "../components/AuthHero";
+import PasswordButton from "../components/PasswordButton";
 
 type GroupAUsersType = {
   username: string;
@@ -29,18 +26,22 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [selectedUser, setSelectedUser] = useState("");
 
   const [groupAUsers, setGroupAUsers] = useState<GroupAUsersType[] | null>(
     null
   );
   const theme = useTheme();
-  const { login } = useAuth();
+  const { login, loginEmployee } = useAuth();
 
-  const handleLoginB = async () => {
-    if (!username.trim() || !password.trim()) return;
+  const handleLogin = async (type: "a" | "b") => {
+    if (type === "b" && (!username.trim() || !password.trim())) return;
+    if (type === "a" && !selectedUser) return;
 
     try {
-      await login(username, password);
+      type === "a"
+        ? await loginEmployee(selectedUser)
+        : await login(username, password);
     } catch (err) {
       console.error(err);
     }
@@ -55,7 +56,16 @@ export default function Login() {
 
   return (
     <Stack flexDirection="row" sx={{ height: "100vh" }}>
-      <Box sx={{ flexBasis: 400, py: 2.5, px: 4, width: "100%", mx: "auto" }}>
+      <Box
+        sx={{
+          flexBasis: 400,
+          py: 2.5,
+          px: 4,
+          width: "100%",
+          mx: "auto",
+          overflowY: "auto",
+        }}
+      >
         <Stack alignItems="center">
           <Typography variant="h5" sx={{ color: theme.palette.primary.main }}>
             Login
@@ -83,23 +93,18 @@ export default function Login() {
               InputProps={{
                 // <-- This is where the toggle button is added.
                 endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={() => setShowPassword((prev) => !prev)}
-                    >
-                      {showPassword ? (
-                        <VisibilityOff sx={{ fontSize: 15 }} />
-                      ) : (
-                        <Visibility sx={{ fontSize: 15 }} />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
+                  <PasswordButton
+                    showPassword={showPassword}
+                    setShowPassword={setShowPassword}
+                  />
                 ),
               }}
             />
           </Stack>
-          <Button onClick={() => handleLoginB()} sx={{ px: 6.5, py: 1, mt: 4 }}>
+          <Button
+            onClick={() => handleLogin("b")}
+            sx={{ px: 6.5, py: 1, mt: 4 }}
+          >
             Login B
           </Button>
 
@@ -117,17 +122,14 @@ export default function Login() {
             <Typography sx={{ fontSize: 11 }}>Select User</Typography>
             <Select
               sx={{ mt: 0.5 }}
-              labelId="demo-select-small-label"
-              id="demo-select-small"
-              // value={age}
-              label="Age"
-              // onChange={handleChange}
+              value={selectedUser}
+              onChange={(ev) => setSelectedUser(ev.target.value)}
               size="small"
               placeholder="Select user"
             >
               {groupAUsers ? (
                 groupAUsers?.map((user) => (
-                  <MenuItem key={user._id} value={user._id}>
+                  <MenuItem key={user._id} value={user.username}>
                     {user.username}
                   </MenuItem>
                 ))
@@ -136,7 +138,12 @@ export default function Login() {
               )}
             </Select>
           </Stack>
-          <Button sx={{ px: 6.5, py: 1, mt: 4 }}>Login A</Button>
+          <Button
+            onClick={() => handleLogin("a")}
+            sx={{ px: 6.5, py: 1, mt: 4 }}
+          >
+            Login A
+          </Button>
 
           <Stack flexDirection="row" alignItems="center" sx={{ mt: 3 }}>
             <Typography sx={{ fontSize: 11, mr: 0.5 }}>
@@ -153,6 +160,7 @@ export default function Login() {
           </Stack>
         </Stack>
       </Box>
+
       <AuthHero />
     </Stack>
   );

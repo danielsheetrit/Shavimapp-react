@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useEffect, useReducer } from "react";
+import { IUser } from "../interfaces/IUser";
 
 // utils
 import { isValidToken, setSession } from "../utils/jwt";
@@ -10,7 +11,7 @@ import axios from "../utils/axios";
 interface State {
   isAuthenticated: boolean;
   isInitialized: boolean;
-  user: any; // Replace 'any' with the actual type of your user
+  user: IUser | null; // Replace 'any' with the actual type of your user
 }
 
 interface Action {
@@ -56,15 +57,17 @@ const reducer = (state: State, action: Action) =>
 interface ContextProps {
   isAuthenticated: boolean;
   isInitialized: boolean;
-  user: any; // Replace 'any' with the actual type of your user
+  user: IUser | null; // Replace 'any' with the actual type of your user
   method: string;
   login: (username: string, password: string) => Promise<void>;
+  loginEmployee: (id: string) => Promise<void>;
   logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<ContextProps>({
   ...initialState,
   method: "jwt",
+  loginEmployee: () => Promise.resolve(),
   login: () => Promise.resolve(),
   logout: () => Promise.resolve(),
 });
@@ -125,7 +128,26 @@ function AuthProvider({ children }: AuthProviderProps) {
       password,
     });
     const { accessToken, user } = response.data;
+
+    delete user.password;
+
+    setSession(accessToken);
+    dispatch({
+      type: "LOGIN",
+      payload: {
+        user,
+      },
+    });
+  };
+
+  const loginEmployee = async (username: string) => {
+    const response = await axios.post("/users/login-employee", {
+      username,
+    });
+    const { user, accessToken } = response.data;
     
+    delete user.password;
+
     setSession(accessToken);
     dispatch({
       type: "LOGIN",
@@ -137,6 +159,9 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   const logout = async () => {
     setSession(null);
+    await axios.put("/users/logout", {
+      _id: state.user?._id,
+    });
     dispatch({ type: "LOGOUT" });
   };
 
@@ -147,6 +172,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         method: "jwt",
         login,
         logout,
+        loginEmployee,
       }}
     >
       {children}
