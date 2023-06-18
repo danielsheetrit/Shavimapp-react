@@ -15,6 +15,7 @@ import { enqueueSnackbar } from "notistack";
 
 // locals
 import AuthHero from "../components/AuthHero";
+import useI18n from "../hooks/useI18n";
 import { IRegisterForm } from "../interfaces/IRegisterForm";
 import PasswordButton from "../components/PasswordButton";
 import axiosInstance from "../utils/axios";
@@ -35,6 +36,7 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
 
   const theme = useTheme();
+  const { translations } = useI18n();
   const navigation = useNavigate();
 
   const handleChange = (ev: ChangeEvent<HTMLInputElement>) => {
@@ -52,7 +54,7 @@ export default function Register() {
       [name]: value,
     }));
   };
-  console.log(registerForm);
+
   const handleRegister = async () => {
     const {
       username,
@@ -150,10 +152,12 @@ export default function Register() {
 
           <Stack flexDirection="row" alignItems="center" sx={{ mt: 4.5 }}>
             <Stack sx={{ width: "50%" }}>
-              <Typography sx={{ fontSize: 11 }}>Username</Typography>
+              <Typography sx={{ fontSize: 11 }}>
+                {translations.register.usernameLabel}
+              </Typography>
               <TextField
                 sx={{ mt: 0.5, mr: 1 }}
-                placeholder="Enter your username"
+                placeholder={translations.register.usernameLabel}
                 size="small"
                 value={registerForm.username}
                 name="username"
@@ -161,7 +165,9 @@ export default function Register() {
               />
             </Stack>
             <Stack sx={{ width: "50%" }}>
-              <Typography sx={{ fontSize: 11 }}>Photo</Typography>
+              <Typography sx={{ fontSize: 11 }}>
+                {translations.register.photoLabel}
+              </Typography>
               <input
                 style={{
                   padding: "8.5px 14px",
@@ -183,10 +189,11 @@ export default function Register() {
 
           <Stack flexDirection="row" alignItems="center" sx={{ mt: 2 }}>
             <Stack sx={{ width: "100%" }}>
-              <Typography sx={{ fontSize: 11 }}>Name</Typography>
+              <Typography sx={{ fontSize: 11 }}>
+                {translations.register.firstNameLabel}
+              </Typography>
               <TextField
                 sx={{ mt: 0.5, mr: 1 }}
-                placeholder="Enter your username"
                 size="small"
                 value={registerForm.firstName}
                 name="firstName"
@@ -194,10 +201,11 @@ export default function Register() {
               />
             </Stack>
             <Stack sx={{ width: "100%" }}>
-              <Typography sx={{ fontSize: 11 }}>Sur name</Typography>
+              <Typography sx={{ fontSize: 11 }}>
+                {translations.register.lastNameLabel}
+              </Typography>
               <TextField
                 sx={{ mt: 0.5, mr: 1, width: "100%" }}
-                placeholder="Enter your username"
                 size="small"
                 value={registerForm.lastName}
                 name="lastName"
@@ -212,7 +220,9 @@ export default function Register() {
             sx={{ mt: 2, width: "100%" }}
           >
             <Stack sx={{ width: "100%" }}>
-              <Typography sx={{ fontSize: 11 }}>Work Group</Typography>
+              <Typography sx={{ fontSize: 11 }}>
+                {translations.register.workGroupLabel}
+              </Typography>
               <Select
                 sx={{ mt: 0.5, mr: 1 }}
                 value={registerForm.workGroup}
@@ -232,7 +242,9 @@ export default function Register() {
             </Stack>
 
             <Stack sx={{ width: "100%" }}>
-              <Typography sx={{ fontSize: 11 }}>User Type</Typography>
+              <Typography sx={{ fontSize: 11 }}>
+                {translations.register.userTypeLabel}
+              </Typography>
               <Select
                 sx={{ mt: 0.5 }}
                 value={registerForm.userType}
@@ -249,7 +261,9 @@ export default function Register() {
           </Stack>
 
           <Stack sx={{ width: "100%", mt: 2 }}>
-            <Typography sx={{ fontSize: 11 }}>Password</Typography>
+            <Typography sx={{ fontSize: 11 }}>
+              {translations.register.passwordLabel}
+            </Typography>
             <TextField
               sx={{ mt: 0.5 }}
               placeholder="***********"
@@ -271,7 +285,9 @@ export default function Register() {
           </Stack>
 
           <Stack sx={{ width: "100%", mt: 2 }}>
-            <Typography sx={{ fontSize: 11 }}>Verified Password</Typography>
+            <Typography sx={{ fontSize: 11 }}>
+              {translations.register.verifiedPasswordLabel}
+            </Typography>
             <TextField
               sx={{ mt: 0.5 }}
               placeholder="***********"
@@ -293,16 +309,16 @@ export default function Register() {
           </Stack>
 
           <Button onClick={handleRegister} sx={{ px: 6.5, py: 1, mt: 4 }}>
-            Register Account
+            {translations.register.registerAccountBtn}
           </Button>
 
           <Stack flexDirection="row" alignItems="center" sx={{ mt: 3 }}>
             <Typography sx={{ fontSize: 11, mr: 0.5 }}>
-              Already have an account?
+              {translations.register.loginLnkTitle}
             </Typography>
             <Typography sx={{ fontSize: 11 }}>
               <Link style={{ color: theme.palette.primary.main }} to="/login">
-                Login!
+                {translations.register.loginLink}
               </Link>
             </Typography>
           </Stack>

@@ -1,0 +1,8 @@
+{
+  "navbar": {
+    "greeting1": "שלום",
+    "greeting2": "ברוך הבא",
+    "nextEvent": "האירוע הבא",
+    "noMoreEvents": "אין עוד אירועים היום"
+  }
+}

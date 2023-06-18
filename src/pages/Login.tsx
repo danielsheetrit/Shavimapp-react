@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
+  Avatar,
   Box,
   Button,
   MenuItem,
@@ -14,10 +15,13 @@ import { useTheme } from "@mui/material/styles";
 // locals
 import axiosInstance from "../utils/axios";
 import useAuth from "../hooks/useAuth";
+import useI18n from "../hooks/useI18n";
 import AuthHero from "../components/AuthHero";
 import PasswordButton from "../components/PasswordButton";
 
 type GroupAUsersType = {
+  work_group: string;
+  avatar: string;
   username: string;
   _id: string;
 };
@@ -33,6 +37,7 @@ export default function Login() {
   );
   const theme = useTheme();
   const { login, loginEmployee } = useAuth();
+  const { translations } = useI18n();
 
   const handleLogin = async (type: "a" | "b") => {
     if (type === "b" && (!username.trim() || !password.trim())) return;
@@ -68,13 +73,15 @@ export default function Login() {
       >
         <Stack alignItems="center">
           <Typography variant="h5" sx={{ color: theme.palette.primary.main }}>
-            Login
+            {translations.login.title}
           </Typography>
           <Stack sx={{ width: "100%", mt: 5 }}>
-            <Typography sx={{ fontSize: 11 }}>Username</Typography>
+            <Typography sx={{ fontSize: 11 }}>
+              {translations.login.usernameLabel}
+            </Typography>
             <TextField
               sx={{ mt: 0.5 }}
-              placeholder="Enter your username"
+              placeholder={translations.login.usernameLabel}
               size="small"
               value={username}
               onChange={(ev) => setUsername(ev.target.value)}
@@ -82,7 +89,9 @@ export default function Login() {
           </Stack>
 
           <Stack sx={{ width: "100%", mt: 2 }}>
-            <Typography sx={{ fontSize: 11 }}>Password</Typography>
+            <Typography sx={{ fontSize: 11 }}>
+              {translations.login.passwordLabel}
+            </Typography>
             <TextField
               sx={{ mt: 0.5 }}
               placeholder="***********"
@@ -105,7 +114,7 @@ export default function Login() {
             onClick={() => handleLogin("b")}
             sx={{ px: 6.5, py: 1, mt: 4 }}
           >
-            Login B
+            {translations.login.loginBBtn}
           </Button>
 
           {/* {Group A} ------------------------------------------------ */}
@@ -115,26 +124,35 @@ export default function Login() {
               color: theme.palette.primary.main,
             }}
           >
-            Choose User form Group A to login
+            {translations.login.chooseUserTitle}
           </Typography>
 
           <Stack sx={{ width: "100%", mt: 1.75 }}>
-            <Typography sx={{ fontSize: 11 }}>Select User</Typography>
+            <Typography sx={{ fontSize: 11 }}>
+              {translations.login.selectUserLabel}
+            </Typography>
             <Select
               sx={{ mt: 0.5 }}
               value={selectedUser}
               onChange={(ev) => setSelectedUser(ev.target.value)}
               size="small"
-              placeholder="Select user"
+              placeholder={translations.login.selectUserLabel}
             >
               {groupAUsers ? (
                 groupAUsers?.map((user) => (
                   <MenuItem key={user._id} value={user.username}>
-                    {user.username}
+                    <Avatar
+                      sx={{ width: 25, height: 25, mr: 1 }}
+                      alt="example"
+                      src={`data:image/jpeg;base64,${user.avatar}`}
+                    />
+                    <span>
+                      {user.username} ({user.work_group})
+                    </span>
                   </MenuItem>
                 ))
               ) : (
-                <MenuItem value="">Loading</MenuItem>
+                <MenuItem value="">...</MenuItem>
               )}
             </Select>
           </Stack>
@@ -142,19 +160,19 @@ export default function Login() {
             onClick={() => handleLogin("a")}
             sx={{ px: 6.5, py: 1, mt: 4 }}
           >
-            Login A
+            {translations.login.loginABtn}
           </Button>
 
           <Stack flexDirection="row" alignItems="center" sx={{ mt: 3 }}>
             <Typography sx={{ fontSize: 11, mr: 0.5 }}>
-              Don’t have an account?
+              {translations.login.registerLinkTitle}
             </Typography>
             <Typography sx={{ fontSize: 11 }}>
               <Link
                 style={{ color: theme.palette.primary.main }}
                 to="/register"
               >
-                Register!
+                {translations.login.registerLink}
               </Link>
             </Typography>
           </Stack>

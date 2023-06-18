@@ -1,0 +1,33 @@
+{
+  "navbar": {
+    "greeting1": "Hi",
+    "greeting2": "Welcome back",
+    "nextEvent": "Next Event",
+    "noMoreEvents": "No more events today."
+  },
+  "login": {
+    "title": "Login",
+    "usernameLabel": "Username",
+    "passwordLabel": "Password",
+    "loginBBtn": "Login B",
+    "chooseUserTitle": "Choose User form Group A to login",
+    "selectUserLabel": "Select User",
+    "loginABtn": "Login A",
+    "registerLinkTitle": "Don’t have an account?",
+    "registerLink": "Register!"
+  },
+  "register": {
+    "title": "Register",
+    "usernameLabel": "Username",
+    "passwordLabel": "Password",
+    "lastNameLabel": "Sur name",
+    "photoLabel": "Photo",
+    "firstNameLabel": "Name",
+    "workGroupLabel": "Work Group",
+    "userTypeLabel": "User Type",
+    "verifiedPasswordLabel": "Verified Password",
+    "registerAccountBtn": "Register Account",
+    "loginLnkTitle": "Already have an account?",
+    "loginLink": "Login!"
+  }
+}

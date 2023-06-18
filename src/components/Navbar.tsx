@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useMemo } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useTheme } from "@mui/material/styles";
 import {
   Button,
@@ -12,10 +12,10 @@ import {
 
 // locals
 import useAuth from "../hooks/useAuth";
+import useI18n from "../hooks/useI18n";
 import Image from "./Image";
 import Logo from "../assets/img/logo.svg";
-
-const url = import.meta.env.VITE_REACT_APP_BASE_URL;
+import axiosInstance from "../utils/axios";
 
 type EventsObjecType = { [key: string]: string };
 type SingleEvent = { time: string; event: string };
@@ -25,11 +25,11 @@ export default function Navbar() {
   const [nextEvent, setNextEvent] = useState<SingleEvent | null>(null);
 
   const { user } = useAuth();
+  const { language, translations } = useI18n();
+
   const theme = useTheme();
   const tabletBP = useMediaQuery("(min-width:750px)");
   const mobileBP = useMediaQuery("(min-width:400px)");
-
-  const language = "en"; // TODO
 
   const getNextEvent = useCallback((events: EventsObjecType) => {
     const now = new Date();
@@ -47,14 +47,14 @@ export default function Navbar() {
 
   const getEvents = useCallback(async () => {
     try {
-      const res = await fetch(`${url}/events/event-by-language/${language}`);
+      const response = await axiosInstance(
+        `/events/event-by-language/${language}`
+      );
+      const { data } = response;
 
-      if (res.ok) {
-        const data = await res.json();
-        const events: EventsObjecType = data.event.event_list;
-        setEvents(events);
-        setNextEvent(getNextEvent(events));
-      }
+      const events: EventsObjecType = data.event.event_list;
+      setEvents(events);
+      setNextEvent(getNextEvent(events));
     } catch (error) {
       console.error(error);
     }
@@ -72,10 +72,10 @@ export default function Navbar() {
   }, [events, getNextEvent]);
 
   useEffect(() => {
-    if (!events) {
+    if (!events && language) {
       getEvents();
     }
-  }, [events, getEvents]);
+  }, [events, getEvents, language]);
 
   return (
     <Container maxWidth="md">
@@ -84,8 +84,12 @@ export default function Navbar() {
 
         {tabletBP && (
           <Stack>
-            <Typography>Hi {user?.username},</Typography>
-            <Typography variant="h4">Welcome back👋</Typography>
+            <Typography>
+              {translations.navbar.greeting1} {user?.username},
+            </Typography>
+            <Typography variant="h4">
+              {translations.navbar.greeting2}👋
+            </Typography>
           </Stack>
         )}
 
@@ -101,20 +105,20 @@ export default function Navbar() {
             }}
             disabled
           >
-            Next Event
+            {translations.navbar.nextEvent}
           </Button>
           <Typography sx={{ fontWeight: 400, mt: 1 }}>
             {nextEvent
               ? `${nextEvent.time}: ${nextEvent.event}`
-              : `No more events today.`}
+              : translations.navbar.noMoreEvents}
           </Typography>
         </Stack>
 
-        {mobileBP && (
+        {mobileBP && user?.avatar && (
           <Avatar
             sx={{ width: 80, height: 80 }}
             alt="example"
-            src={`data:image/jpeg;base64,${user?.avatar}`}
+            src={`data:image/jpeg;base64,${user.avatar}`}
           />
         )}
       </Stack>
