@@ -45,7 +45,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
         break;
       case "he":
         // translations = hebrew;
-        html.dir = "rtl";
+        // html.dir = "rtl";
         break;
       case "ar":
         // translations = arabic;

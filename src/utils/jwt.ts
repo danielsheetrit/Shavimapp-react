@@ -15,17 +15,18 @@ const isValidToken = (accessToken: string) => {
   return decoded.exp > currentTime;
 };
 
-const handleTokenExpired = (exp: number) => {
+const handleTokenExpired = async (exp: number) => {
   // eslint-disable-next-line prefer-const
   let expiredTimer;
 
   window.clearTimeout(expiredTimer);
   const currentTime = Date.now();
-  const timeLeft = exp * 1000 - currentTime;
+  const timeLeft = exp * 1000 - (currentTime - 5000);
 
-  expiredTimer = window.setTimeout(() => {
+  expiredTimer = window.setTimeout(async () => {
     // You can do what ever you want here, like show a notification
     alert("Please login again");
+    await axios.put("/users/logout");
   }, timeLeft);
 };
 

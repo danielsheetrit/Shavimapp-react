@@ -29,5 +29,18 @@
     "registerAccountBtn": "Register Account",
     "loginLnkTitle": "Already have an account?",
     "loginLink": "Login!"
+  },
+  "userFooter": {
+    "days": [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ],
+    "logoutBtn": "LogOut",
+    "callForHelpBtn": "Call for help"
   }
 }

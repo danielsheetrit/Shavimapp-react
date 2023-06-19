@@ -90,13 +90,13 @@ function AuthProvider({ children }: AuthProviderProps) {
           setSession(accessToken);
 
           const response = await axios.get(`/users/user-with-token`);
-          const { user } = response.data;
+          const user: IUser = response.data.user[0];
 
           dispatch({
             type: "INITIALIZE",
             payload: {
               isAuthenticated: true,
-              user: user[0],
+              user: user,
             },
           });
         } else {
@@ -145,7 +145,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       username,
     });
     const { user, accessToken } = response.data;
-    
+
     delete user.password;
 
     setSession(accessToken);
@@ -158,10 +158,8 @@ function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const logout = async () => {
+    await axios.put("/users/logout");
     setSession(null);
-    await axios.put("/users/logout", {
-      _id: state.user?._id,
-    });
     dispatch({ type: "LOGOUT" });
   };
 

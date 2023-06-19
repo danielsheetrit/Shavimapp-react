@@ -51,7 +51,6 @@ export default function Navbar() {
         `/events/event-by-language/${language}`
       );
       const { data } = response;
-
       const events: EventsObjecType = data.event.event_list;
       setEvents(events);
       setNextEvent(getNextEvent(events));
@@ -117,8 +116,8 @@ export default function Navbar() {
         {mobileBP && user?.avatar && (
           <Avatar
             sx={{ width: 80, height: 80 }}
-            alt="example"
-            src={`data:image/jpeg;base64,${user.avatar}`}
+            alt="avatar"
+            src={`data:image/jpeg;base64,${user?.avatar}`}
           />
         )}
       </Stack>
