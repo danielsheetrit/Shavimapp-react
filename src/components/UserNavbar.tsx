@@ -25,6 +25,7 @@ export default function Navbar() {
   const [nextEvent, setNextEvent] = useState<SingleEvent | null>(null);
 
   const { user } = useAuth();
+
   const { language, translations } = useI18n();
 
   const theme = useTheme();
@@ -47,17 +48,34 @@ export default function Navbar() {
 
   const getEvents = useCallback(async () => {
     try {
-      const response = await axiosInstance(
+      const response = await axiosInstance.get(
         `/events/event-by-language/${language}`
       );
-      const { data } = response;
-      const events: EventsObjecType = data.event.event_list;
+
+      const events: EventsObjecType = response?.data?.event?.event_list;
       setEvents(events);
       setNextEvent(getNextEvent(events));
     } catch (error) {
       console.error(error);
     }
   }, [getNextEvent, language]);
+
+  const arrayBufferToBase64 = (buffer: Buffer) => {
+    let binary = "";
+    const bytes = new Uint8Array(buffer);
+    const len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+  };
+
+  useEffect(() => {
+    if (user?.avatar && window) {
+      const str = arrayBufferToBase64(user.avatar);
+      console.log(str);
+    }
+  }, [user?.avatar]);
 
   useEffect(() => {
     if (!events) return;
@@ -113,11 +131,11 @@ export default function Navbar() {
           </Typography>
         </Stack>
 
-        {mobileBP && user?.avatar && (
+        {mobileBP && (
           <Avatar
-            sx={{ width: 80, height: 80 }}
+            sx={{ width: 65, height: 65 }}
             alt="avatar"
-            src={`data:image/jpeg;base64,${user?.avatar}`}
+            src={`data:image/jpeg;base64,${user?.avatar.toString()}`}
           />
         )}
       </Stack>

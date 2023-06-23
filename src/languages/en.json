@@ -42,5 +42,8 @@
     ],
     "logoutBtn": "LogOut",
     "callForHelpBtn": "Call for help"
+  },
+  "userPage": {
+    "breakLabel": "Break"
   }
 }

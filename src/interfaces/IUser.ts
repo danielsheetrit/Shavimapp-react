@@ -1,3 +1,10 @@
+type ClicksType = {
+  [key: string]: {
+    createdAt: Date;
+    count: number;
+  };
+};
+
 export interface IUser {
   _id: string;
   username: string;
@@ -7,8 +14,7 @@ export interface IUser {
   created_at: Date;
   work_group: number;
   connected: boolean;
-  avatar: string;
+  avatar: Buffer;
   language: "en" | "ru" | "he" | "ar";
-  clicks: Map<string, number>;
+  clicks: ClicksType;
 }
-

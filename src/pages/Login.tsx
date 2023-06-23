@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import {
   Avatar,
@@ -52,12 +52,18 @@ export default function Login() {
     }
   };
 
-  useEffect(() => {
-    (async () => {
+  const getUsers = useCallback(async () => {
+    try {
       const { data } = await axiosInstance.get("/users/users-summary");
       setGroupAUsers(data?.users);
-    })();
+    } catch (err) {
+      console.error(err);
+    }
   }, []);
+
+  useEffect(() => {    
+    getUsers();
+  }, [getUsers]);
 
   return (
     <Stack flexDirection="row" sx={{ height: "100vh" }}>

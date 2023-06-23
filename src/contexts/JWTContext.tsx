@@ -1,4 +1,6 @@
 import { createContext, ReactNode, useEffect, useReducer } from "react";
+import { enqueueSnackbar } from "notistack";
+
 import { IUser } from "../interfaces/IUser";
 
 // utils
@@ -11,7 +13,7 @@ import axios from "../utils/axios";
 interface State {
   isAuthenticated: boolean;
   isInitialized: boolean;
-  user: IUser | null; // Replace 'any' with the actual type of your user
+  user: IUser | null;
 }
 
 interface Action {
@@ -85,10 +87,10 @@ function AuthProvider({ children }: AuthProviderProps) {
     const initialize = async () => {
       try {
         const accessToken = window.localStorage.getItem("accessToken");
-
+        
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken);
-
+          
           const response = await axios.get(`/users/user-with-token`);
           const user: IUser = response.data.user[0];
 
@@ -141,24 +143,30 @@ function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const loginEmployee = async (username: string) => {
-    const response = await axios.post("/users/login-employee", {
-      username,
-    });
-    const { user, accessToken } = response.data;
+    try {
+      const response = await axios.post("/users/login-employee", {
+        username,
+      });
 
-    delete user.password;
+      const { user, accessToken } = response.data;
 
-    setSession(accessToken);
-    dispatch({
-      type: "LOGIN",
-      payload: {
-        user,
-      },
-    });
+      delete user.password;
+
+      setSession(accessToken);
+      dispatch({
+        type: "LOGIN",
+        payload: {
+          user,
+        },
+      });
+    } catch (err) {
+      enqueueSnackbar(err.message, {
+        variant: "error",
+      });
+    }
   };
 
   const logout = async () => {
-    await axios.put("/users/logout");
     setSession(null);
     dispatch({ type: "LOGOUT" });
   };

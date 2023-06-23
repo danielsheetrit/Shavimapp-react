@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Stack, Typography } from "@mui/material";
+import { Stack, Typography, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { getCurrentTimeAndDate } from "../utils";
 
@@ -9,6 +9,7 @@ export default function Clock({ days }: { days: string[] }) {
   );
   const { time, date } = currentTimeAndDate;
   const theme = useTheme();
+  const isTablet = useMediaQuery("(min-width:600px)");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -23,7 +24,8 @@ export default function Clock({ days }: { days: string[] }) {
       sx={{
         backgroundColor: theme.palette.primary.main,
         borderRadius: 1,
-        width: 150,
+        width: isTablet ? 150 : "90%",
+        mt: isTablet ? 0 : 1,
         px: 2,
         py: 1,
       }}
