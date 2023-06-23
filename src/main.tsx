@@ -8,12 +8,15 @@ import App from "./App.tsx";
 
 // globals
 import "./globals.css";
+import { SettingsProvider } from "./contexts/SettingsContext.tsx";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <AuthProvider>
       <LanguageProvider>
-        <App />
+        <SettingsProvider>
+          <App />
+        </SettingsProvider>
       </LanguageProvider>
     </AuthProvider>
   </React.StrictMode>

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useTheme } from "@mui/material/styles";
 import {
   Button,
@@ -24,8 +24,8 @@ export default function Navbar() {
   const [events, setEvents] = useState<EventsObjecType | null>(null);
   const [nextEvent, setNextEvent] = useState<SingleEvent | null>(null);
 
+  const avatarRef = useRef<HTMLImageElement>(null);
   const { user } = useAuth();
-
   const { language, translations } = useI18n();
 
   const theme = useTheme();
@@ -60,20 +60,15 @@ export default function Navbar() {
     }
   }, [getNextEvent, language]);
 
-  const arrayBufferToBase64 = (buffer: Buffer) => {
-    let binary = "";
-    const bytes = new Uint8Array(buffer);
-    const len = bytes.byteLength;
-    for (let i = 0; i < len; i++) {
-      binary += String.fromCharCode(bytes[i]);
-    }
-    return window.btoa(binary);
-  };
-
   useEffect(() => {
-    if (user?.avatar && window) {
-      const str = arrayBufferToBase64(user.avatar);
-      console.log(str);
+    if (user?.avatar && avatarRef.current) {
+      const img = document.createElement("img") as HTMLImageElement;
+      img.src = `data:image/jpeg;base64,${user?.avatar}`;
+      img.onload = () => {
+        if (avatarRef && avatarRef.current) {
+          avatarRef.current.src = img.src;
+        }
+      };
     }
   }, [user?.avatar]);
 
@@ -132,10 +127,15 @@ export default function Navbar() {
         </Stack>
 
         {mobileBP && (
-          <Avatar
-            sx={{ width: 65, height: 65 }}
-            alt="avatar"
-            src={`data:image/jpeg;base64,${user?.avatar.toString()}`}
+          // <Avatar
+          //   ref={avatarRef}
+          //   sx={{ width: 65, height: 65 }}
+          //   alt="avatar"
+          //   src={`data:image/jpeg;base64,${user?.avatar.toString()}`}
+          // />
+          <img
+            ref={avatarRef}
+            style={{ width: 65, height: 65, borderRadius: "50%" }}
           />
         )}
       </Stack>

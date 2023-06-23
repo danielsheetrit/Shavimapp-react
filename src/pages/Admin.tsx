@@ -2,19 +2,9 @@ import { useEffect } from "react";
 
 import useSocket from "../hooks/useSocket";
 import { events } from "../config/socketIo";
-// import { debounce } from "../utils";
-// import axiosInstance from "../utils/axios";
 
 export default function Admin() {
   const socket = useSocket();
-
-  // move to user
-  // const getValidateBreak = debounce(async (data: { userId: string }) => {
-  //   const res = await axiosInstance.put("/actions/validate-break", {
-  //     id: data.userId,
-  //   });
-  //   console.log(res.data);
-  // }, 60 * 1000);
 
   useEffect(() => {
     if (!socket) return;
@@ -23,7 +13,6 @@ export default function Admin() {
       console.log("USER_ACTIVITY_UPDATE", data);
     });
 
-    // socket.on(events.USER_IN_BREAK, getValidateBreak);
     socket.on(events.USER_IN_BREAK, () => {
       console.log("in break");
     });

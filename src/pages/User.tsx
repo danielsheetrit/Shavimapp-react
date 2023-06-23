@@ -9,8 +9,10 @@ import UserMain from "../components/UserMain";
 import UserFooter from "../components/UserFooter";
 import Modal from "../components/Modal";
 import Image from "../components/Image";
-import { todayFormattedDate } from "../utils";
+import { debounce, todayFormattedDate } from "../utils";
 import BreakSVG from "../assets/img/break_ill.svg";
+import useSettings from "../hooks/useSettings";
+import useI18n from "../hooks/useI18n";
 
 export default function User() {
   const [onBreak, setOnBreak] = useState(false);
@@ -18,6 +20,8 @@ export default function User() {
   const [count, setCount] = useState<number>(0);
 
   const { user } = useAuth();
+  const { translations } = useI18n();
+  const { min_break_time } = useSettings();
 
   const handleBreak = async (isBreak: boolean) => {
     try {
@@ -27,6 +31,18 @@ export default function User() {
         id: user?._id,
         isBreak,
       });
+
+      const getValidateBreak = debounce(async () => {
+        try {
+          await axiosInstance.put("/actions/validate-break", {
+            id: user?._id,
+          });
+        } catch (err) {
+          throw new Error(err.toString());
+        }
+      }, min_break_time * (60 * 1000)); // min_break_time is in minutes
+
+      getValidateBreak();
     } catch (err) {
       console.error(err);
     }
@@ -65,11 +81,11 @@ export default function User() {
       <Modal open={onBreak}>
         <Stack alignItems="center">
           <Typography variant="h6">
-            I am on break and will be back soon
+            {translations.userPage.breakModalTitle}
           </Typography>
           <Image url={BreakSVG} width={250} height={250} />
           <Button sx={{ px: 4, mt: 1 }} onClick={() => handleBreak(false)}>
-            Ok
+            {translations.userPage.getBackFromBreakBtn}
           </Button>
         </Stack>
       </Modal>
@@ -77,10 +93,12 @@ export default function User() {
       {/* {Call for help Modal} */}
       <Modal open={calledHelp}>
         <Stack alignItems="center">
-          <Typography variant="h6">Calling Fo help</Typography>
+          <Typography variant="h6">
+            {translations.userPage.callingForHelpModalTitle}
+          </Typography>
           {/* <Image url={BreakSVG} width={250} height={250} /> */}
           <Button sx={{ px: 4, mt: 1 }} onClick={() => setCalledHelp(false)}>
-            Ok
+            {translations.userPage.getBackFromBreakBtn}
           </Button>
         </Stack>
       </Modal>

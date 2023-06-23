@@ -21,7 +21,9 @@ export default function UserFooter({ handleHelp }: { handleHelp: () => void }) {
   return (
     <>
       <Modal open={open}>
-        <Typography variant="h6">Are you really want to logout?</Typography>
+        <Typography variant="h6">
+          {translations.userFooter.logoutModal}
+        </Typography>
         <Box sx={{ mt: 3 }}>
           <Button
             onClick={() => setOpen(false)}
@@ -34,9 +36,11 @@ export default function UserFooter({ handleHelp }: { handleHelp: () => void }) {
               },
             }}
           >
-            No
+            {translations.userFooter.cancelLogout}
           </Button>
-          <Button onClick={() => logout()}>Yes</Button>
+          <Button onClick={() => logout()}>
+            {translations.userFooter.confirmLogout}
+          </Button>
         </Box>
       </Modal>
 

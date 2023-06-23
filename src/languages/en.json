@@ -41,9 +41,15 @@
       "Saturday"
     ],
     "logoutBtn": "LogOut",
-    "callForHelpBtn": "Call for help"
+    "callForHelpBtn": "Call for help",
+    "logoutModal": "Are you really want to logout?",
+    "confirmLogout": "Yes",
+    "cancelLogout": "No"
   },
   "userPage": {
-    "breakLabel": "Break"
+    "breakLabel": "Break",
+    "breakModalTitle": "I am on break and will be back soon",
+    "getBackFromBreakBtn": "Ok",
+    "callingForHelpModalTitle": "Calling For help"
   }
 }

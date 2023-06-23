@@ -18,6 +18,7 @@ import useAuth from "../hooks/useAuth";
 import useI18n from "../hooks/useI18n";
 import AuthHero from "../components/AuthHero";
 import PasswordButton from "../components/PasswordButton";
+import { enqueueSnackbar } from "notistack";
 
 type GroupAUsersType = {
   work_group: string;
@@ -49,6 +50,9 @@ export default function Login() {
         : await login(username, password);
     } catch (err) {
       console.error(err);
+      enqueueSnackbar(err.message, {
+        variant: "error",
+      });
     }
   };
 
@@ -61,7 +65,7 @@ export default function Login() {
     }
   }, []);
 
-  useEffect(() => {    
+  useEffect(() => {
     getUsers();
   }, [getUsers]);
 
