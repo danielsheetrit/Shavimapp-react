@@ -38,6 +38,10 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     if (!isAuthenticated) {
       socket?.disconnect();
     }
+
+    window.addEventListener("beforeunload", () => {
+      socket?.disconnect();
+    });
   }, [isAuthenticated, socket]);
 
   useEffect(() => {

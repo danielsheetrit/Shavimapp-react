@@ -1,5 +1,4 @@
 import { useState, useEffect, ChangeEvent } from "react";
-import axiosInstance from "../utils/axios";
 import {
   MenuItem,
   Select,
@@ -9,6 +8,10 @@ import {
   TextField,
   Button,
 } from "@mui/material";
+import { enqueueSnackbar } from "notistack";
+
+import axiosInstance from "../utils/axios";
+import useI18n from "../hooks/useI18n";
 
 interface event {
   event_list: {
@@ -31,6 +34,10 @@ export default function AdminEventsEdit() {
   const [events, setEvents] = useState<[] | event[]>([]);
   const [currentEvent, setCurrentEvent] = useState(eventsInitState);
   const [currentLng, setCurrentLng] = useState("");
+
+  const {
+    translations: { adminSettings },
+  } = useI18n();
 
   const getEvents = async () => {
     try {
@@ -61,8 +68,6 @@ export default function AdminEventsEdit() {
     ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = ev.target;
-    console.log(currentEvent);
-
     setCurrentEvent((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -74,6 +79,7 @@ export default function AdminEventsEdit() {
           language: currentLng,
         },
       });
+      enqueueSnackbar("Event updated succuessfully");
     } catch (err) {
       console.error(err);
     }
@@ -87,15 +93,13 @@ export default function AdminEventsEdit() {
     <>
       <Stack sx={{ mt: 3 }} flexDirection="row" alignItems="center">
         <Typography sx={{ textDecoration: "underline", mr: 1 }} variant="h6">
-          Events
+          {adminSettings.eventsTitle}
         </Typography>
-        <Typography variant="body2">
-          (Update Each Language separately)
-        </Typography>
+        <Typography variant="body2">{adminSettings.eventsSubTitle}</Typography>
       </Stack>
 
       <Stack sx={{ width: "50%", mt: 3 }}>
-        <Typography sx={{ fontSize: 11 }}>Pick Language to edit</Typography>
+        <Typography sx={{ fontSize: 11 }}>{}</Typography>
         <Select
           sx={{ mt: 0.5 }}
           value={currentLng}
@@ -103,9 +107,9 @@ export default function AdminEventsEdit() {
           size="small"
         >
           <MenuItem value={"en"}>English</MenuItem>
-          <MenuItem value={"he"}>Hebrew</MenuItem>
-          <MenuItem value={"ru"}>Russian</MenuItem>
-          <MenuItem value={"ar"}>Arabic</MenuItem>
+          <MenuItem value={"he"}>עברית</MenuItem>
+          <MenuItem value={"ru"}>русский язык</MenuItem>
+          <MenuItem value={"ar"}>اللغة الروسية</MenuItem>
         </Select>
       </Stack>
 
@@ -159,7 +163,7 @@ export default function AdminEventsEdit() {
 
       <Stack direction="row" justifyContent="end">
         <Button onClick={updateEvents} sx={{ mt: 3, px: 2, alignSelf: "end" }}>
-          Save Events
+          {adminSettings.saveEventsBtn}
         </Button>
       </Stack>
     </>

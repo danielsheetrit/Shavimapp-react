@@ -44,6 +44,7 @@ const setSession = (accessToken: string | null) => {
     localStorage.removeItem("accessToken");
     delete axios.defaults.headers.common.Authorization;
     window.location.pathname = "/login";
+    window.location.reload();
   }
 };
 

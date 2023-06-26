@@ -18,6 +18,7 @@ import {
 import AdminEventsEdit from "./AdminEventsEdit";
 import axiosInstance from "../utils/axios";
 import useSettings from "../hooks/useSettings";
+import useI18n from "../hooks/useI18n";
 
 const settingsInitState = {
   minBreakTime: 0,
@@ -32,6 +33,9 @@ export default function AdminSettings() {
   const [settings, setSettings] = useState(settingsInitState);
 
   const isMobile = !useMediaQuery("(min-width:450px)");
+  const {
+    translations: { adminSettings },
+  } = useI18n();
   const fetchedSettings = useSettings();
 
   const handleChange = (ev: ChangeEvent<HTMLInputElement>) => {
@@ -96,7 +100,7 @@ export default function AdminSettings() {
   return (
     <Box>
       <Typography variant="body1" color="initial">
-        Settings
+        {adminSettings.settingsTitle}
       </Typography>
       <Paper
         elevation={3}
@@ -108,7 +112,7 @@ export default function AdminSettings() {
         }}
       >
         <Typography sx={{ textDecoration: "underline" }} variant="h6">
-          General
+          {adminSettings.genetalTitle}
         </Typography>
         <Stack
           flexDirection={isMobile ? "column" : "row"}
@@ -117,7 +121,7 @@ export default function AdminSettings() {
         >
           <Stack sx={{ mr: 5, width: "100%" }}>
             <Typography sx={{ fontSize: 11 }}>
-              Minimal Break Time (minutes)
+              {adminSettings.minBreakTimeLabel}
             </Typography>
             <TextField
               sx={{ mt: 0.5 }}
@@ -130,7 +134,7 @@ export default function AdminSettings() {
           </Stack>
           <Stack sx={{ mt: isMobile ? 2 : 0, width: "100%" }}>
             <Typography sx={{ fontSize: 11 }}>
-              Minimal Count Time (minutes)
+              {adminSettings.MinimalCountTimeLabel}
             </Typography>
             <TextField
               sx={{ mt: 0.5 }}
@@ -149,7 +153,7 @@ export default function AdminSettings() {
         >
           <Stack sx={{ mr: 5, width: "100%" }}>
             <Typography sx={{ fontSize: 11 }}>
-              Expected amount of procuts in 1 hour
+              {adminSettings.countRefPerHourLabel}
             </Typography>
             <TextField
               sx={{ mt: 0.5 }}
@@ -163,7 +167,7 @@ export default function AdminSettings() {
 
           <Stack sx={{ mt: isMobile ? 2 : 0, width: "100%" }}>
             <Typography sx={{ fontSize: 11 }}>
-              Check users distress every X (minutes)
+              {adminSettings.samplingCycleInMinutesLabel}
             </Typography>
             <Select
               sx={{ mt: 0.5 }}
@@ -195,14 +199,14 @@ export default function AdminSettings() {
         >
           <FormControlLabel
             control={<Checkbox checked={settings.registerPageAvailble} />}
-            label="Register Availability"
+            label={adminSettings.RegisterAvailabilityCheckbox}
             name="registerPageAvailble"
             onChange={(ev) => handleCheckChange(ev as any)}
             sx={{ mr: 5 }}
           />
           <FormControlLabel
             control={<Checkbox checked={settings.callForHelpAvailble} />}
-            label="Call For Help Availability"
+            label={adminSettings.callForHelpCheckbox}
             name="callForHelpAvailble"
             onChange={(ev) => handleCheckChange(ev as any)}
           />
@@ -210,7 +214,7 @@ export default function AdminSettings() {
 
         <Stack direction="row" justifyContent="end">
           <Button onClick={updateSettings} sx={{ mt: 3, px: 2 }}>
-            Save General Settings
+            {adminSettings.saveGeneralSettingsBtn}
           </Button>
         </Stack>
         <AdminEventsEdit />

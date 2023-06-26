@@ -58,5 +58,20 @@
       "management": "Management",
       "settings": "Settings"
     }
+  },
+  "adminSettings": {
+    "settingsTitle": "Settings",
+    "genetalTitle": "General",
+    "eventsTitle": "Events",
+    "eventsSubTitle": "(update each language separately)",
+    "minBreakTimeLabel": "Minimal Break Time (minutes)",
+    "MinimalCountTimeLabel": "Minimal Count Time (minutes)",
+    "countRefPerHourLabel": "Expected amount of procuts in 1 hour",
+    "samplingCycleInMinutesLabel": "Check users distress every X (minutes)",
+    "callForHelpCheckbox": "Call For Help Availability",
+    "RegisterAvailabilityCheckbox": "Register Availability",
+    "saveGeneralSettingsBtn": "Save General Settings",
+    "languageSelectLabel": "Pick Language to edit",
+    "saveEventsBtn": "Save Events"
   }
 }
