@@ -51,5 +51,12 @@
     "breakModalTitle": "I am on break and will be back soon",
     "getBackFromBreakBtn": "Ok",
     "callingForHelpModalTitle": "Calling For help"
+  },
+  "adminNavbar": {
+    "navItems": {
+      "users": "Users",
+      "management": "Management",
+      "settings": "Settings"
+    }
   }
 }

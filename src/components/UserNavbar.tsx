@@ -16,6 +16,8 @@ import useI18n from "../hooks/useI18n";
 import Image from "./Image";
 import Logo from "../assets/img/logo.svg";
 import axiosInstance from "../utils/axios";
+import useSocket from "../hooks/useSocket";
+import { events as eventNames } from "../config/socketIo";
 
 type EventsObjecType = { [key: string]: string };
 type SingleEvent = { time: string; event: string };
@@ -27,9 +29,9 @@ export default function Navbar() {
   const avatarRef = useRef<HTMLImageElement>(null);
   const { user } = useAuth();
   const { language, translations } = useI18n();
+  const socket = useSocket();
 
   const theme = useTheme();
-  const tabletBP = useMediaQuery("(min-width:750px)");
   const mobileBP = useMediaQuery("(min-width:400px)");
 
   const getNextEvent = useCallback((events: EventsObjecType) => {
@@ -61,18 +63,6 @@ export default function Navbar() {
   }, [getNextEvent, language]);
 
   useEffect(() => {
-    if (user?.avatar && avatarRef.current) {
-      const img = document.createElement("img") as HTMLImageElement;
-      img.src = `data:image/jpeg;base64,${user?.avatar}`;
-      img.onload = () => {
-        if (avatarRef && avatarRef.current) {
-          avatarRef.current.src = img.src;
-        }
-      };
-    }
-  }, [user?.avatar]);
-
-  useEffect(() => {
     if (!events) return;
 
     const intervalId = setInterval(() => {
@@ -87,23 +77,23 @@ export default function Navbar() {
     if (!events && language) {
       getEvents();
     }
-  }, [events, getEvents, language]);
+
+    socket?.on(eventNames.EVENTS_UPDATED, () => getEvents());
+  }, [events, getEvents, language, socket]);
 
   return (
     <Container maxWidth="md">
       <Stack sx={{ py: 2 }} flexDirection="row" justifyContent="space-between">
         <Image width={125} height={50} url={Logo} />
 
-        {tabletBP && (
-          <Stack>
-            <Typography>
-              {translations.navbar.greeting1} {user?.username},
-            </Typography>
-            <Typography variant="h4">
-              {translations.navbar.greeting2}👋
-            </Typography>
-          </Stack>
-        )}
+        <Stack sx={{ display: { xs: "none", sm: "block" } }}>
+          <Typography>
+            {translations.navbar.greeting1} {user?.username},
+          </Typography>
+          <Typography variant="h4">
+            {translations.navbar.greeting2}👋
+          </Typography>
+        </Stack>
 
         <Divider orientation="vertical" flexItem />
 
@@ -127,15 +117,11 @@ export default function Navbar() {
         </Stack>
 
         {mobileBP && (
-          // <Avatar
-          //   ref={avatarRef}
-          //   sx={{ width: 65, height: 65 }}
-          //   alt="avatar"
-          //   src={`data:image/jpeg;base64,${user?.avatar.toString()}`}
-          // />
-          <img
+          <Avatar
             ref={avatarRef}
-            style={{ width: 65, height: 65, borderRadius: "50%" }}
+            sx={{ width: 65, height: 65 }}
+            alt="avatar"
+            src={`data:image/jpeg;base64,${user?.avatar}`}
           />
         )}
       </Stack>

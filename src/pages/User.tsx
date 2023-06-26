@@ -10,9 +10,11 @@ import UserFooter from "../components/UserFooter";
 import Modal from "../components/Modal";
 import Image from "../components/Image";
 import { debounce, todayFormattedDate } from "../utils";
-import BreakSVG from "../assets/img/break_ill.svg";
 import useSettings from "../hooks/useSettings";
 import useI18n from "../hooks/useI18n";
+
+import BreakSVG from "../assets/img/break_ill.svg";
+import CallForHelpPic from "../assets/img/call-for-help.jpg";
 
 export default function User() {
   const [onBreak, setOnBreak] = useState(false);
@@ -96,7 +98,7 @@ export default function User() {
           <Typography variant="h6">
             {translations.userPage.callingForHelpModalTitle}
           </Typography>
-          {/* <Image url={BreakSVG} width={250} height={250} /> */}
+          <Image url={CallForHelpPic} width={250} height={250} />
           <Button sx={{ px: 4, mt: 1 }} onClick={() => setCalledHelp(false)}>
             {translations.userPage.getBackFromBreakBtn}
           </Button>

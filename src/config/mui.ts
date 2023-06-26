@@ -1,10 +1,11 @@
 import { createTheme } from "@mui/material/styles";
 
+const drawerWidth = 200;
 const theme = createTheme({
   breakpoints: {
     values: {
       xs: 0,
-      sm: 600,
+      sm: 800,
       md: 1072,
       lg: 1200,
       xl: 1536,
@@ -32,6 +33,13 @@ const theme = createTheme({
     fontFamily: "'Nunito Sans', sans-serif",
   },
   components: {
+    MuiCheckbox: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          color: theme.palette.text.primary,
+        }),
+      },
+    },
     MuiOutlinedInput: {
       styleOverrides: {
         notchedOutline: {
@@ -76,4 +84,4 @@ const theme = createTheme({
   },
 });
 
-export { theme };
+export { theme, drawerWidth };
