@@ -50,7 +50,17 @@
     "breakLabel": "Break",
     "breakModalTitle": "I am on break and will be back soon",
     "getBackFromBreakBtn": "Ok",
-    "callingForHelpModalTitle": "Calling For help"
+    "callingForHelpModalTitle": "Calling For help",
+    "userModals": {
+      "feeling": {
+        "modalTitle": "How do you feel?",
+        "goodMood": "Good Mood",
+        "ok": "Ok",
+        "littleDown": "Little Down",
+        "sad": "Sad",
+        "bad": "Bad"
+      }
+    }
   },
   "adminNavbar": {
     "navItems": {

@@ -14,6 +14,7 @@ export const withAuthGuard = (
 ) => {
   return (props: any) => {
     const { isAuthenticated, isInitialized, user } = useAuth();
+
     const { pathname } = useLocation();
     const [requestedLocation, setRequestedLocation] = useState<string | null>(
       null

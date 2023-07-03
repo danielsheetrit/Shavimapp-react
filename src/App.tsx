@@ -20,7 +20,7 @@ import Register from "./pages/Register";
 
 export default function App() {
   const UserWithAG = withAuthGuard(User, ["user"]);
-  const AdminWithAG = withAuthGuard(Admin, ["admin"]);
+  const AdminWithAG = withAuthGuard(Admin, ["admin", "chief"]);
   const LoginWithGG = withGuestGuard(Login);
   const RegisterWithGG = withGuestGuard(Register);
 

@@ -4,6 +4,8 @@ const USER_CAME_FROM_BREAK = "user-came-from-break";
 const CALL_FOR_HELP = "call-for-help";
 const SETTINGS_UPDATED = "settings-updated";
 const EVENTS_UPDATED = "events-updated";
+const USER_IN_DISTRESS = "user-in-distress";
+const QUESTION_CREATED = "question-created";
 
 export const events = {
   CALL_FOR_HELP,
@@ -12,4 +14,6 @@ export const events = {
   USER_IN_BREAK,
   SETTINGS_UPDATED,
   EVENTS_UPDATED,
+  USER_IN_DISTRESS,
+  QUESTION_CREATED
 };

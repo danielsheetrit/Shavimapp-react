@@ -5,6 +5,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import { events } from "../../config/socketIo";
 import AdminSidebar from "../../components/AdminSidebar";
 import AdminSettings from "../../components/AdminSettings";
+import AdminManagement from "../../components/AdminManagement";
 
 // hooks
 import useSocket from "../../hooks/useSocket";
@@ -26,7 +27,9 @@ export function Admin() {
       case "settings":
         cmp = <AdminSettings />;
         break;
-
+      case "management":
+        cmp = <AdminManagement />;
+        break;
       default:
         cmp = <p>Loading</p>;
         break;
@@ -38,8 +41,8 @@ export function Admin() {
   useEffect(() => {
     if (!socket) return;
 
-    socket.on(events.USER_ACTIVITY_UPDATE, (data) => {
-      console.log("USER_ACTIVITY_UPDATE", data);
+    socket.on(events.USER_ACTIVITY_UPDATE, () => {
+      console.log("USER_ACTIVITY_UPDATE");
     });
 
     socket.on(events.USER_IN_BREAK, () => {
@@ -52,6 +55,10 @@ export function Admin() {
 
     socket.on(events.CALL_FOR_HELP, () => {
       console.log("Call for help");
+    });
+
+    socket.on(events.USER_IN_DISTRESS, (data) => {
+      console.log("USER_IN_DISTRESS", data.userId);
     });
   }, [socket]);
 

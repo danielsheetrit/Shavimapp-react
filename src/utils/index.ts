@@ -49,3 +49,14 @@ export function debounce(
     timerId = setTimeout(executeTargetFunction, delay);
   };
 }
+
+export function hasLoggedInToday(lastLogin: Date) {
+  const today = new Date();
+  const lastLoginDate = new Date(lastLogin);
+
+  return (
+    today.getDate() === lastLoginDate.getDate() &&
+    today.getMonth() === lastLoginDate.getMonth() &&
+    today.getFullYear() === lastLoginDate.getFullYear()
+  );
+}

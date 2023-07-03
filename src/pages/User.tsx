@@ -1,42 +1,51 @@
 import { useEffect, useState } from "react";
 import { Button, Stack, Typography } from "@mui/material";
+import { IQuestion } from "../interfaces/IQuestion";
 
-import axiosInstance from "../utils/axios";
+// hooks
 import useAuth from "../hooks/useAuth";
+import useSocket from "../hooks/useSocket";
+import useSettings from "../hooks/useSettings";
+import useI18n from "../hooks/useI18n";
 
+// components
 import UserNavbar from "../components/UserNavbar";
 import UserMain from "../components/UserMain";
 import UserFooter from "../components/UserFooter";
 import Modal from "../components/Modal";
 import Image from "../components/Image";
-import { debounce, todayFormattedDate } from "../utils";
-import useSettings from "../hooks/useSettings";
-import useI18n from "../hooks/useI18n";
+import MediaModels from "../components/MediaModals";
 
+// locals
 import BreakSVG from "../assets/img/break_ill.svg";
 import CallForHelpPic from "../assets/img/call-for-help.jpg";
+import { debounce } from "../utils";
+import axiosInstance from "../utils/axios";
+import { events } from "../config/socketIo";
 
 export default function User() {
   const [onBreak, setOnBreak] = useState(false);
   const [calledHelp, setCalledHelp] = useState(false);
   const [count, setCount] = useState<number>(0);
+  const [question, setQuestion] = useState<IQuestion | null>(null);
 
   const { user } = useAuth();
   const { translations } = useI18n();
   const { min_break_time } = useSettings();
+  const socket = useSocket();
 
   const handleBreak = async (isBreak: boolean) => {
     try {
       setOnBreak(isBreak);
 
-      await axiosInstance.put("/users/break", {
+      await axiosInstance.put("/breaks/status", {
         id: user?._id,
         isBreak,
       });
 
       const getValidateBreak = debounce(async () => {
         try {
-          await axiosInstance.put("/actions/validate-break", {
+          await axiosInstance.put("/breaks/validate", {
             id: user?._id,
           });
         } catch (err) {
@@ -60,7 +69,7 @@ export default function User() {
 
   const handleCounter = async () => {
     try {
-      const response = await axiosInstance.put("/users/click", {
+      const response = await axiosInstance.put("/clicks", {
         id: user?._id,
       });
       setCount(response?.data?.count);
@@ -69,16 +78,31 @@ export default function User() {
     }
   };
 
+  const getCounter = async (id: string) => {
+    try {
+      const { data } = await axiosInstance.get(`/clicks/${id}`);
+      setCount(data.count);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
     if (user) {
-      const todayStr = todayFormattedDate();
-      const todayCount = user?.clicks[todayStr];
-      todayCount && setCount(todayCount.count);
+      getCounter(user._id);
     }
-  }, [user]);
 
+    socket?.on(events.QUESTION_CREATED, (data) => {
+      if (user?._id === data.question.receiver) {
+        setQuestion(data.question);
+      }
+    });
+  }, [socket, user]);
+  console.log('question', question);
   return (
     <>
+      {question && <MediaModels question={question} />}
+
       {/* {Go on break Modal} */}
       <Modal open={onBreak}>
         <Stack alignItems="center">

@@ -66,7 +66,12 @@ export default function Register() {
       lastName,
     } = registerForm;
 
-    const isIncrrectField = Object.values(registerForm).some((field) => {
+    const isIncrrectField = Object.keys(registerForm).some((key) => {
+      if (userType === 'admin' && key === 'workGroup') {
+        return false;
+      }
+    
+      const field = registerForm[key];
       return (
         !field ||
         (typeof field === "string" && !field.trim()) ||

@@ -6,4 +6,5 @@ export interface IRegisterForm {
   userType: string;
   password: string;
   verifiedPassword: string;
+  [key: string]: any;
 }

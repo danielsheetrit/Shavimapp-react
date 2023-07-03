@@ -20,7 +20,7 @@ export default function Modal({ open, children }: ModalProps) {
       bgcolor: "background.paper",
       borderRadius: 1,
       boxShadow: 24,
-      p: 4,
+      p: { xs: 1, sm: 4 },
     }),
     [isMobile]
   );

@@ -92,8 +92,8 @@ function AuthProvider({ children }: AuthProviderProps) {
           setSession(accessToken);
           
           const response = await axios.get(`/users/user-with-token`);
-          const user: IUser = response.data.user[0];
-
+          const user: IUser = response.data.user;
+          
           dispatch({
             type: "INITIALIZE",
             payload: {
