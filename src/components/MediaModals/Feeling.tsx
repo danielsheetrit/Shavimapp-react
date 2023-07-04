@@ -23,7 +23,7 @@ export default function Feeling({
     {
       title: lng.ok,
       emoji: "😐",
-      answer: "feeling ok",
+      answer: "ok",
     },
     {
       title: lng.littleDown,

@@ -6,6 +6,8 @@ const SETTINGS_UPDATED = "settings-updated";
 const EVENTS_UPDATED = "events-updated";
 const USER_IN_DISTRESS = "user-in-distress";
 const QUESTION_CREATED = "question-created";
+const QUESTION_ANSWERED = "question-answered";
+const COUNTER_INCREMENT = 'counter-increment';
 
 export const events = {
   CALL_FOR_HELP,
@@ -15,5 +17,7 @@ export const events = {
   SETTINGS_UPDATED,
   EVENTS_UPDATED,
   USER_IN_DISTRESS,
-  QUESTION_CREATED
+  QUESTION_CREATED,
+  COUNTER_INCREMENT,
+  QUESTION_ANSWERED,
 };

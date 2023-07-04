@@ -35,6 +35,7 @@ export default function MediaModels({ question }: MediaModalsType) {
       console.error(err);
     } finally {
       setOpen(false);
+      setFeelingAnswer("");
     }
   };
 

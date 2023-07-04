@@ -99,7 +99,9 @@ export default function AdminEventsEdit() {
       </Stack>
 
       <Stack sx={{ width: "50%", mt: 3 }}>
-        <Typography sx={{ fontSize: 11 }}>{}</Typography>
+        <Typography sx={{ fontSize: 11 }}>
+          {adminSettings.languageSelectLabel}
+        </Typography>
         <Select
           sx={{ mt: 0.5 }}
           value={currentLng}

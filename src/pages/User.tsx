@@ -98,7 +98,7 @@ export default function User() {
       }
     });
   }, [socket, user]);
-  console.log('question', question);
+
   return (
     <>
       {question && <MediaModels question={question} />}

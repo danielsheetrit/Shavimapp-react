@@ -29,7 +29,7 @@ export default function FullNameTitle({
     if (!connected && hasLoggedInToday(lastLogin)) {
       return (
         <Typography variant="caption" sx={{ color: "#c4c4c4" }}>
-          <p style={{ color: "#ff3737", display: "inline-block" }}>!</p>
+          <p style={{ color: "#ff3737", display: "inline-block" }}>(!)</p>
           {firstName + " " + lastName}
         </Typography>
       );

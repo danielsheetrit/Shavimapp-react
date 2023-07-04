@@ -25,8 +25,9 @@ const handleTokenExpired = async (exp: number) => {
 
   expiredTimer = window.setTimeout(async () => {
     // You can do what ever you want here, like show a notification
-    alert("Please login again");
     await axios.put("/users/logout");
+    window.location.pathname = "/login";
+    window.location.reload();
   }, timeLeft);
 };
 

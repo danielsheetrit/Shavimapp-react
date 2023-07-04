@@ -4,9 +4,10 @@ import { Modal as ModalBox, Box, useMediaQuery } from "@mui/material";
 type ModalProps = {
   open: boolean;
   children: ReactNode;
+  anotherStyle?: object;
 };
 
-export default function Modal({ open, children }: ModalProps) {
+export default function Modal({ open, children, anotherStyle }: ModalProps) {
   const isMobile = !useMediaQuery("(min-width:420px)");
 
   const style = useMemo(
@@ -21,8 +22,9 @@ export default function Modal({ open, children }: ModalProps) {
       borderRadius: 1,
       boxShadow: 24,
       p: { xs: 1, sm: 4 },
+      ...{...anotherStyle}
     }),
-    [isMobile]
+    [anotherStyle, isMobile]
   );
 
   return (
