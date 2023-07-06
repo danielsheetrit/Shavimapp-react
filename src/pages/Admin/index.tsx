@@ -1,5 +1,6 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
+import dayjs from "dayjs";
 
 // locals
 import { events } from "../../config/socketIo";
@@ -23,6 +24,7 @@ export function Admin() {
   const [userNeedHelp, setUserNeedHelp] = useState("");
   const [users, setUsers] = useState<IUserDashboardType[] | []>([]);
   const [currentCmp, setCurrentCmp] = useState<CmpType>("users");
+  const [date, setDate] = useState(dayjs().startOf("d"));
 
   const { user } = useAuth();
   const socket = useSocket();
@@ -38,7 +40,7 @@ export function Admin() {
         cmp = <p>management</p>;
         break;
       case "users":
-        cmp = <AdminDashboard users={users} />;
+        cmp = <AdminDashboard users={users} date={date} setDate={setDate} />;
         break;
       default:
         cmp = <p>Loading</p>;
@@ -46,16 +48,19 @@ export function Admin() {
     }
 
     return cmp;
-  }, [currentCmp, users]);
+  }, [currentCmp, date, users]);
 
-  const getUsers = async () => {
+  const getUsers = useCallback(async () => {
+    const milisec = date.valueOf();
     try {
-      const res = await axiosInstance.get("/actions/admin-dashboard");
+      const res = await axiosInstance.get(
+        `/actions/admin-dashboard/${milisec}`
+      );
       setUsers(res.data);
     } catch (err) {
       console.error(err);
     }
-  };
+  }, [date]);
 
   const getUsersWithDebounce = debounce(async () => {
     await getUsers();
@@ -79,7 +84,7 @@ export function Admin() {
 
   useEffect(() => {
     getUsers();
-  }, []);
+  }, [getUsers, date]);
 
   return (
     <>

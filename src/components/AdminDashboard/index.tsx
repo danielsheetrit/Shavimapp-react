@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Box, Paper, Typography } from "@mui/material";
 import {
   DataGrid,
@@ -6,6 +6,12 @@ import {
   GridCellParams,
   GridValueFormatterParams,
 } from "@mui/x-data-grid";
+import dayjs, { Dayjs } from "dayjs";
+
+// date picker
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 // locals
 import EditUserButton from "./EditUserButton";
@@ -16,11 +22,17 @@ import MoodIndicator from "./MoodIndicator";
 import { IUserDashboardType } from "../../interfaces/IUserDashboard";
 import SendMediaModal from "./SendMediaModal";
 
-export default function AdminManagement({
-  users,
-}: {
+type AdminDashboardProps = {
   users: IUserDashboardType[];
-}) {
+  date: Dayjs;
+  setDate: Dispatch<SetStateAction<Dayjs>>;
+};
+
+export default function AdminDashboard({
+  users,
+  date,
+  setDate,
+}: AdminDashboardProps) {
   const [currentReceiver, setCurrentReceiver] = useState("");
   const [open, setOpen] = useState(false);
 
@@ -121,18 +133,32 @@ export default function AdminManagement({
 
   return (
     <Box>
-      <SendMediaModal open={open} setOpen={setOpen} currentReceiver={currentReceiver} />
+      <SendMediaModal
+        open={open}
+        setOpen={setOpen}
+        currentReceiver={currentReceiver}
+      />
 
       <Typography variant="body1" color="initial">
         Users
       </Typography>
+
+      <Box sx={{ mt: 4.5 }}>
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en">
+          <DatePicker
+            disableFuture
+            value={date}
+            onChange={(value) => value && setDate(value)}
+          />
+        </LocalizationProvider>
+      </Box>
 
       <Paper
         elevation={3}
         sx={{
           maxWidth: "677px",
           width: "100%",
-          mt: 4.5,
+          mt: 1,
           borderRadius: 2,
         }}
       >

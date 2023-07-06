@@ -18,6 +18,8 @@ import Login from "./pages/Login";
 import { Admin } from "./pages/Admin";
 import Register from "./pages/Register";
 
+import 'dayjs/locale/en';
+
 export default function App() {
   const UserWithAG = withAuthGuard(User, ["user"]);
   const AdminWithAG = withAuthGuard(Admin, ["admin", "chief"]);
