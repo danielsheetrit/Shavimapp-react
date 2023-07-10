@@ -7,13 +7,12 @@ import {
 } from "react";
 import useAuth from "../hooks/useAuth";
 
-// Import your language files
 import english from "../languages/en.json";
 import hebrew from "../languages/he.json";
-// import arabic from './locales/ar.json';
-// import russian from './locales/ru.json';
+import arabic from '../languages/ar.json';
+import russian from '../languages/ru.json';
 
-// Define the shape of your context state
+
 type TranslationsType = typeof english;
 type languageType = "en" | "he" | "ar" | "ru" | null;
 interface LanguageContextProps {
@@ -23,7 +22,6 @@ interface LanguageContextProps {
   direction: "left" | "right";
 }
 
-// Create the context
 export const LanguageContext = createContext<LanguageContextProps | null>(null);
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
@@ -50,11 +48,11 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
         direction = "rtl";
         break;
       case "ar":
-        // translations = arabic;
+        translations = arabic;
         direction = "rtl";
         break;
       case "ru":
-        // translations = russian;
+        translations = russian;
         direction = "ltr";
         break;
       default:

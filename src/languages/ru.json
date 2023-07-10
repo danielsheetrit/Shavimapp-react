@@ -1,0 +1,111 @@
+{
+  "navbar": {
+    "greeting1": "Привет",
+    "greeting2": "С возвращением",
+    "nextEvent": "Следующее событие",
+    "noMoreEvents": "Сегодня больше нет событий."
+  },
+  "login": {
+    "title": "Войти",
+    "usernameLabel": "Имя пользователя",
+    "passwordLabel": "Пароль",
+    "loginBBtn": "Вход B",
+    "chooseUserTitle": "Выберите пользователя из группы A для входа",
+    "selectUserLabel": "Выбрать пользователя",
+    "loginABtn": "Вход A",
+    "registerLinkTitle": "Нет аккаунта?",
+    "registerLink": "Регистрация!"
+  },
+  "register": {
+    "title": "Регистрация",
+    "usernameLabel": "Имя пользователя",
+    "passwordLabel": "Пароль",
+    "lastNameLabel": "Фамилия",
+    "photoLabel": "Фото",
+    "firstNameLabel": "Имя",
+    "workGroupLabel": "Рабочая группа",
+    "userTypeLabel": "Тип пользователя",
+    "verifiedPasswordLabel": "Подтвержденный пароль",
+    "registerAccountBtn": "Зарегистрировать аккаунт",
+    "loginLnkTitle": "Уже есть аккаунт?",
+    "loginLink": "Войти!"
+  },
+  "userFooter": {
+    "days": [
+      "Воскресенье",
+      "Понедельник",
+      "Вторник",
+      "Среда",
+      "Четверг",
+      "Пятница",
+      "Суббота"
+    ],
+    "logoutBtn": "Выйти",
+    "callForHelpBtn": "Вызов помощи",
+    "logoutModal": "Вы действительно хотите выйти?",
+    "confirmLogout": "Да",
+    "cancelLogout": "Нет"
+  },
+  "userPage": {
+    "breakLabel": "Перерыв",
+    "breakModalTitle": "Я на перерыве и скоро вернусь",
+    "getBackFromBreakBtn": "Хорошо",
+    "callingForHelpModalTitle": "Вызов помощи",
+    "userModals": {
+      "feeling": {
+        "modalTitle": "Как вы себя чувствуете?",
+        "goodMood": "Хорошее настроение",
+        "ok": "Хорошо",
+        "littleDown": "Немного печально",
+        "sad": "Грустно",
+        "bad": "Плохо"
+      }
+    }
+  },
+  "adminNavbar": {
+    "navItems": {
+      "users": "Пользователи",
+      "management": "Управление",
+      "settings": "Настройки"
+    }
+  },
+  "adminSettings": {
+    "settingsTitle": "Настройки",
+    "genetalTitle": "Общие",
+    "eventsTitle": "События",
+    "eventsSubTitle": "(обновлять каждый язык отдельно)",
+    "minBreakTimeLabel": "Минимальное время перерыва (минуты)",
+    "MinimalCountTimeLabel": "Минимальное время подсчета (минуты)",
+    "countRefPerHourLabel": "Ожидаемое количество продуктов в 1 час",
+    "samplingCycleInMinutesLabel": "Проверить дискомфорт пользователей каждые X (минуты)",
+    "callForHelpCheckbox": "Доступность вызова помощи",
+    "RegisterAvailabilityCheckbox": "Доступность регистрации",
+    "saveGeneralSettingsBtn": "Сохранить общие настройки",
+    "languageSelectLabel": "Выберите язык для редактирования",
+    "saveEventsBtn": "Сохранить события"
+  },
+  "adminPage": {
+    "callingForHelpAdmin": "просит о помощи!",
+    "usersDashboard": {
+      "title": "Пользователи",
+      "usersDatagrid": {
+        "fullName": "Полное имя",
+        "breaks": "Перерывы",
+        "clicks": "счетчик",
+        "mood": "Настроение",
+        "distress": "Дискомфорт",
+        "sendMediaBtn": "Отправить медиа",
+        "workGroupFilterLabel": "Выберите, какую рабочую группу вы хотите видеть"
+      }
+    },
+    "managementDashboard": {
+      "userTypeLabel": "Тип пользователя",
+      "workGroupLabel": "Рабочая группа",
+      "languageLabel": "Язык",
+      "deleteUsersBtn": "Удалить выбранных пользователей",
+      "editBtn": "Редактировать",
+      "cancelBtn": "Отмена",
+      "updateBtn": "Обновить"
+    }
+  }
+}

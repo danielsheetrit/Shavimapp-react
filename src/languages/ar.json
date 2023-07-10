@@ -1,0 +1,111 @@
+{
+  "navbar": {
+    "greeting1": "مرحبا",
+    "greeting2": "مرحبا بك مرة أخرى",
+    "nextEvent": "الحدث التالي",
+    "noMoreEvents": "لا المزيد من الأحداث اليوم."
+  },
+  "login": {
+    "title": "تسجيل الدخول",
+    "usernameLabel": "اسم المستخدم",
+    "passwordLabel": "كلمة المرور",
+    "loginBBtn": "تسجيل الدخول B",
+    "chooseUserTitle": "اختر المستخدم من المجموعة A لتسجيل الدخول",
+    "selectUserLabel": "اختر المستخدم",
+    "loginABtn": "تسجيل الدخول A",
+    "registerLinkTitle": "ليس لديك حساب؟",
+    "registerLink": "تسجيل!"
+  },
+  "register": {
+    "title": "تسجيل",
+    "usernameLabel": "اسم المستخدم",
+    "passwordLabel": "كلمة المرور",
+    "lastNameLabel": "اللقب",
+    "photoLabel": "صورة",
+    "firstNameLabel": "الاسم",
+    "workGroupLabel": "مجموعة العمل",
+    "userTypeLabel": "نوع المستخدم",
+    "verifiedPasswordLabel": "كلمة المرور المتحقق منها",
+    "registerAccountBtn": "تسجيل حساب",
+    "loginLnkTitle": "لديك بالفعل حساب؟",
+    "loginLink": "تسجيل الدخول!"
+  },
+  "userFooter": {
+    "days": [
+      "الأحد",
+      "الاثنين",
+      "الثلاثاء",
+      "الأربعاء",
+      "الخميس",
+      "الجمعة",
+      "السبت"
+    ],
+    "logoutBtn": "تسجيل الخروج",
+    "callForHelpBtn": "استدعاء للمساعدة",
+    "logoutModal": "هل تريد حقا تسجيل الخروج؟",
+    "confirmLogout": "نعم",
+    "cancelLogout": "لا"
+  },
+  "userPage": {
+    "breakLabel": "استراحة",
+    "breakModalTitle": "أنا في استراحة وسأعود قريبا",
+    "getBackFromBreakBtn": "حسنا",
+    "callingForHelpModalTitle": "استدعاء للمساعدة",
+    "userModals": {
+      "feeling": {
+        "modalTitle": "كيف تشعر؟",
+        "goodMood": "مزاج جيد",
+        "ok": "حسنا",
+        "littleDown": "قليل من الحزن",
+        "sad": "حزين",
+        "bad": "سيء"
+      }
+    }
+  },
+  "adminNavbar": {
+    "navItems": {
+      "users": "المستخدمون",
+      "management": "الإدارة",
+      "settings": "الإعدادات"
+    }
+  },
+  "adminSettings": {
+    "settingsTitle": "الإعدادات",
+    "genetalTitle": "عام",
+    "eventsTitle": "الأحداث",
+    "eventsSubTitle": "(تحديث كل لغة على حدة)",
+    "minBreakTimeLabel": "الحد الأدنى لوقت الاستراحة (بالدقائق)",
+    "MinimalCountTimeLabel": "الحد الأدنى لوقت العد (بالدقائق)",
+    "countRefPerHourLabel": "الكمية المتوقعة من المنتجات في ساعة واحدة",
+    "samplingCycleInMinutesLabel": "تحقق من الضيق لدى المستخدمين كل X (دقائق)",
+    "callForHelpCheckbox": "توافر استدعاء للمساعدة",
+    "RegisterAvailabilityCheckbox": "توافر التسجيل",
+    "saveGeneralSettingsBtn": "حفظ الإعدادات العامة",
+    "languageSelectLabel": "اختر اللغة للتعديل",
+    "saveEventsBtn": "حفظ الأحداث"
+  },
+  "adminPage": {
+    "callingForHelpAdmin": "يطلب المساعدة!",
+    "usersDashboard": {
+      "title": "المستخدمون",
+      "usersDatagrid": {
+        "fullName": "الاسم الكامل",
+        "breaks": "الاستراحات",
+        "clicks": "عداد",
+        "mood": "المزاج",
+        "distress": "ضيق",
+        "sendMediaBtn": "إرسال الوسائط",
+        "workGroupFilterLabel": "اختر أي مجموعة عمل تريد رؤيتها"
+      }
+    },
+    "managementDashboard": {
+      "userTypeLabel": "نوع المستخدم",
+      "workGroupLabel": "مجموعة العمل",
+      "languageLabel": "اللغة",
+      "deleteUsersBtn": "حذف المستخدمين المحددين",
+      "editBtn": "تعديل",
+      "cancelBtn": "إلغاء",
+      "updateBtn": "تحديث"
+    }
+  }
+}
