@@ -9,11 +9,13 @@ import useI18n from "../hooks/useI18n";
 import useAuth from "../hooks/useAuth";
 import Clock from "./Clock";
 import Modal from "./Modal";
+import useSettings from "../hooks/useSettings";
 
 export default function UserFooter({ handleHelp }: { handleHelp: () => void }) {
   const [open, setOpen] = useState(false);
 
   const { logout } = useAuth();
+  const settings = useSettings();
   const { translations } = useI18n();
   const theme = useTheme();
   const isTablet = useMediaQuery("(min-width:600px)");
@@ -55,6 +57,7 @@ export default function UserFooter({ handleHelp }: { handleHelp: () => void }) {
       >
         <Button
           onClick={() => handleHelp()}
+          disabled={!settings.call_for_help_availble}
           sx={{ height: 40, px: 2, width: isTablet ? 150 : "90%" }}
         >
           <HelpOutlinedIcon sx={{ mr: 2 }} />

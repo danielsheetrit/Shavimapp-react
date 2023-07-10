@@ -4,11 +4,13 @@ import { useTheme } from "@mui/material/styles";
 type EditUserButtonProps = {
   id: string;
   handleEdit: (id: string) => void;
+  btnName: string;
 };
 
 export default function EditUserButton({
   handleEdit,
   id,
+  btnName,
 }: EditUserButtonProps) {
   const theme = useTheme();
   return (
@@ -24,7 +26,7 @@ export default function EditUserButton({
       size="small"
       onClick={() => handleEdit(id)}
     >
-      Send Media
+      {btnName}
     </Button>
   );
 }

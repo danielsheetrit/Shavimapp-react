@@ -1,0 +1,103 @@
+{
+  "navbar": {
+    "greeting1": "היי",
+    "greeting2": "ברוך השוב",
+    "nextEvent": "האירוע הבא",
+    "noMoreEvents": "אין עוד אירועים היום."
+  },
+  "login": {
+    "title": "התחברות",
+    "usernameLabel": "שם משתמש",
+    "passwordLabel": "סיסמה",
+    "loginBBtn": "התחברות B",
+    "chooseUserTitle": "בחר משתמש מהקבוצה A להתחברות",
+    "selectUserLabel": "בחר משתמש",
+    "loginABtn": "התחברות A",
+    "registerLinkTitle": "אין לך חשבון?",
+    "registerLink": "הרשמה!"
+  },
+  "register": {
+    "title": "הרשמה",
+    "usernameLabel": "שם משתמש",
+    "passwordLabel": "סיסמה",
+    "lastNameLabel": "שם משפחה",
+    "photoLabel": "תמונה",
+    "firstNameLabel": "שם פרטי",
+    "workGroupLabel": "קבוצת עבודה",
+    "userTypeLabel": "סוג משתמש",
+    "verifiedPasswordLabel": "אימות סיסמה",
+    "registerAccountBtn": "הרשמת חשבון",
+    "loginLnkTitle": "כבר יש לך חשבון?",
+    "loginLink": "התחברות!"
+  },
+  "userFooter": {
+    "days": ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"],
+    "logoutBtn": "התנתק",
+    "callForHelpBtn": "קריאה לעזרה",
+    "logoutModal": "האם אתה באמת רוצה להתנתק?",
+    "confirmLogout": "כן",
+    "cancelLogout": "לא"
+  },
+  "userPage": {
+    "breakLabel": "הפסקה",
+    "breakModalTitle": "אני בהפסקה ואחזור בקרוב",
+    "getBackFromBreakBtn": "אוקיי",
+    "callingForHelpModalTitle": "קריאה לעזרה",
+    "userModals": {
+      "feeling": {
+        "modalTitle": "איך אתה מרגיש?",
+        "goodMood": "מצב רוח טוב",
+        "ok": "בסדר",
+        "littleDown": "קצת דכאוני",
+        "sad": "עצוב",
+        "bad": "רע"
+      }
+    }
+  },
+  "adminNavbar": {
+    "navItems": {
+      "users": "משתמשים",
+      "management": "ניהול",
+      "settings": "הגדרות"
+    }
+  },
+  "adminSettings": {
+    "settingsTitle": "הגדרות",
+    "genetalTitle": "כללי",
+    "eventsTitle": "אירועים",
+    "eventsSubTitle": "(עדכן כל שפה בנפרד)",
+    "minBreakTimeLabel": "זמן מינימלי להפסקה (דקות)",
+    "MinimalCountTimeLabel": "זמן מינימלי לספירה (דקות)",
+    "countRefPerHourLabel": "כמות מוצקים מצופה בשעה 1",
+    "samplingCycleInMinutesLabel": "בדוק מצוקת משתמשים כל X (דקות)",
+    "callForHelpCheckbox": "זמינות לקריאה לעזרה",
+    "RegisterAvailabilityCheckbox": "זמינות להרשמה",
+    "saveGeneralSettingsBtn": "שמירת הגדרות כלליות",
+    "languageSelectLabel": "בחר שפה לעריכה",
+    "saveEventsBtn": "שמירת אירועים"
+  },
+  "adminPage": {
+    "callingForHelpAdmin": "מבקש עזרה!",
+    "usersDashboard": {
+      "title": "משתמשים",
+      "usersDatagrid": {
+        "fullName": "שם מלא",
+        "breaks": "הפסקות",
+        "clicks": "מונה",
+        "mood": "מצב רוח",
+        "distress": "מצוקה",
+        "sendMediaBtn": "שלח מדיה",
+        "workGroupFilterLabel": "בחר איזו קבוצת עבודה לראות"
+      }
+    },
+    "managementDashboard": {
+      "userTypeLabel": "סוג משתמש",
+      "workGroupLabel": "קבוצת עבודה",
+      "languageLabel": "שפה",
+      "deleteUsersBtn": "מחק משתמשים נבחרים",
+      "editBtn": "עריכה",
+      "cancelBtn": "ביטול",
+      "updateBtn": "עדכן"
+    }
+  }
+}

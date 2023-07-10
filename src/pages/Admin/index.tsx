@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import dayjs from "dayjs";
 
@@ -7,7 +7,10 @@ import { events } from "../../config/socketIo";
 import AdminSidebar from "../../components/AdminSidebar";
 import AdminSettings from "../../components/AdminSettings";
 import AdminDashboard from "../../components/AdminDashboard";
-import { debounce } from "../../utils";
+import { getLocalStorageItem } from "../../utils";
+import axiosInstance from "../../utils/axios";
+import Modal from "../../components/Modal";
+import AdminMenegament from "../../components/AdminManagement";
 
 // hooks
 import useSocket from "../../hooks/useSocket";
@@ -15,17 +18,23 @@ import useAuth from "../../hooks/useAuth";
 import useI18n from "../../hooks/useI18n";
 
 import { IUserDashboardType } from "../../interfaces/IUserDashboard";
-import axiosInstance from "../../utils/axios";
-import Modal from "../../components/Modal";
+import { IUser } from "../../interfaces/IUser";
 
 export type CmpType = "users" | "management" | "settings";
 
 export function Admin() {
-  const [userNeedHelp, setUserNeedHelp] = useState("");
   const [users, setUsers] = useState<IUserDashboardType[] | []>([]);
+  const [managementUsers, setManagementUsers] = useState<IUser[] | []>([]);
   const [currentCmp, setCurrentCmp] = useState<CmpType>("users");
-  const [date, setDate] = useState(dayjs().startOf("d"));
+  const [userNeedHelp, setUserNeedHelp] = useState("");
 
+  // fetch dependencies
+  const [date, setDate] = useState(dayjs().startOf("d"));
+  const [workGroup, setWorkGroup] = useState<number>(
+    getLocalStorageItem("workGroup") || 1
+  );
+
+  const isFetchingRef = useRef(false);
   const { user } = useAuth();
   const socket = useSocket();
   const { translations } = useI18n();
@@ -37,67 +46,98 @@ export function Admin() {
         cmp = <AdminSettings />;
         break;
       case "management":
-        cmp = <p>management</p>;
+        cmp = (
+          <AdminMenegament
+            managementUsers={managementUsers}
+            getUsersForManagement={getUsersForManagement}
+          />
+        );
         break;
       case "users":
-        cmp = <AdminDashboard users={users} date={date} setDate={setDate} />;
+        cmp = (
+          <AdminDashboard
+            users={users}
+            date={date}
+            setDate={setDate}
+            workGroup={workGroup}
+            setWorkGroup={setWorkGroup}
+          />
+        );
         break;
       default:
-        cmp = <p>Loading</p>;
+        cmp = null;
         break;
     }
 
     return cmp;
-  }, [currentCmp, date, users]);
+  }, [currentCmp, date, managementUsers, users, workGroup]);
 
   const getUsers = useCallback(async () => {
+    if (isFetchingRef.current) {
+      return;
+    }
+
+    isFetchingRef.current = true;
     const milisec = date.valueOf();
+
     try {
       const res = await axiosInstance.get(
-        `/actions/admin-dashboard/${milisec}`
+        `/actions/admin-dashboard/${milisec}/${workGroup}`
       );
       setUsers(res.data);
     } catch (err) {
       console.error(err);
+    } finally {
+      isFetchingRef.current = false;
     }
-  }, [date]);
+  }, [date, workGroup]);
 
-  const getUsersWithDebounce = debounce(async () => {
-    await getUsers();
-  }, 2000);
+  async function getUsersForManagement() {
+    try {
+      const res = await axiosInstance.get(`/actions/management-dashboard`);
+      setManagementUsers(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   useEffect(() => {
     if (!socket) return;
 
-    socket.on(events.USER_ACTIVITY_UPDATE, getUsersWithDebounce);
-    socket.on(events.USER_IN_BREAK, getUsersWithDebounce);
-    socket.on(events.USER_CAME_FROM_BREAK, getUsersWithDebounce);
-    socket.on(events.USER_IN_DISTRESS, getUsersWithDebounce);
-    socket.on(events.QUESTION_ANSWERED, getUsersWithDebounce);
-    socket.on(events.COUNTER_INCREMENT, getUsersWithDebounce);
+    socket.on(events.USER_ACTIVITY_UPDATE, getUsers);
+    socket.on(events.USER_IN_BREAK, getUsers);
+    socket.on(events.USER_CAME_FROM_BREAK, getUsers);
+    socket.on(events.USER_IN_DISTRESS, getUsers);
+    socket.on(events.QUESTION_ANSWERED, getUsers);
+    socket.on(events.COUNTER_INCREMENT, getUsers);
 
     // ----------------------------------------------------------
     socket.on(events.CALL_FOR_HELP, (data) => {
       setUserNeedHelp(data.name);
     });
-  }, [socket]);
+  }, [getUsers, socket]);
 
   useEffect(() => {
-    getUsers();
-  }, [getUsers, date]);
+    if (currentCmp === "users") {
+      getUsers();
+    }
+    if (currentCmp === "management") {
+      getUsersForManagement();
+    }
+  }, [getUsers, date, currentCmp, workGroup]);
 
   return (
     <>
       <AdminSidebar currentCmp={currentCmp} setCurrentCmp={setCurrentCmp}>
         <Modal open={!!userNeedHelp}>
           <Typography variant="h6">
-            {userNeedHelp} is calling for help!
+            {userNeedHelp} {translations.adminPage.callingForHelpAdmin}
           </Typography>
           <Button
             sx={{ flexBasis: 100, mr: 1 }}
             onClick={() => setUserNeedHelp("")}
           >
-            Ok
+            {translations.userPage.getBackFromBreakBtn}
           </Button>
         </Modal>
 

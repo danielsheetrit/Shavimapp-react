@@ -50,3 +50,12 @@ export function hasLoggedInToday(lastLogin: Date) {
     today.getFullYear() === lastLoginDate.getFullYear()
   );
 }
+
+export function setLocalStorageItem(key: string, value: string | number) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+export function getLocalStorageItem(key: string) {
+  const item = localStorage.getItem(key);
+  return item ? JSON.parse(item) : null;
+}

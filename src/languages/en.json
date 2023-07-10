@@ -83,5 +83,29 @@
     "saveGeneralSettingsBtn": "Save General Settings",
     "languageSelectLabel": "Pick Language to edit",
     "saveEventsBtn": "Save Events"
+  },
+  "adminPage": {
+    "callingForHelpAdmin": "is calling for help!",
+    "usersDashboard": {
+      "title": "Users",
+      "usersDatagrid": {
+        "fullName": "Full name",
+        "breaks": "Breaks",
+        "clicks": "counter",
+        "mood": "Mood",
+        "distress": "Distress",
+        "sendMediaBtn": "Send Media",
+        "workGroupFilterLabel": "Choose which work group to see"
+      }
+    },
+    "managementDashboard": {
+      "userTypeLabel": "User Type",
+      "workGroupLabel": "Work Group",
+      "languageLabel": "Language",
+      "deleteUsersBtn": "Delete Selected Users",
+      "editBtn": "Edit",
+      "cancelBtn": "Cancel",
+      "updateBtn": "Update"
+    }
   }
 }

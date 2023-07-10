@@ -16,6 +16,7 @@ import NavItems from "./NavItems";
 import { CmpType } from "../../pages/Admin";
 import { drawerWidth } from "../../config/mui";
 import useAuth from "../../hooks/useAuth";
+import useI18n from "../../hooks/useI18n";
 
 type NavItemsProps = {
   currentCmp: CmpType;
@@ -32,13 +33,14 @@ export default function AdminSiderbar({
 
   const { user, logout } = useAuth();
   const theme = useTheme();
+  const { direction } = useI18n()
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", direction: "rtl" }}>
       <AppBar
         position="fixed"
         sx={{
@@ -111,6 +113,7 @@ export default function AdminSiderbar({
             },
           }}
           open
+          anchor={direction}
         >
           <NavItems
             logout={logout}
@@ -120,6 +123,7 @@ export default function AdminSiderbar({
           />
         </Drawer>
       </Box>
+  
       <Box
         component="main"
         sx={{

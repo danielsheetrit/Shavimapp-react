@@ -9,8 +9,7 @@ import useAuth from "../hooks/useAuth";
 
 // Import your language files
 import english from "../languages/en.json";
-// import hebrew from "../languages/he.json";
-// import hebrew from './locales/he.json';
+import hebrew from "../languages/he.json";
 // import arabic from './locales/ar.json';
 // import russian from './locales/ru.json';
 
@@ -21,6 +20,7 @@ interface LanguageContextProps {
   language: languageType;
   translations: TranslationsType;
   setLanguage: (language: "en" | "he" | "ar" | "ru") => void;
+  direction: "left" | "right";
 }
 
 // Create the context
@@ -29,6 +29,7 @@ export const LanguageContext = createContext<LanguageContextProps | null>(null);
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [language, setLanguage] = useState<languageType>(null);
   const [translations, setTranslations] = useState<TranslationsType>(english);
+  const [direction, setDirection] = useState<"left" | "right">("left");
   const { user } = useAuth();
 
   // Load the appropriate translations based on the selected language
@@ -38,27 +39,31 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     if (!html) return;
 
     let translations = english;
+    let direction = "";
     switch (language) {
       case "en":
         translations = english;
-        html.dir = "ltr";
+        direction = "ltr";
         break;
       case "he":
-        // translations = hebrew;
-        // html.dir = "rtl";
+        translations = hebrew;
+        direction = "rtl";
         break;
       case "ar":
         // translations = arabic;
-        html.dir = "rtl";
+        direction = "rtl";
         break;
       case "ru":
         // translations = russian;
-        html.dir = "ltr";
+        direction = "ltr";
         break;
       default:
         translations = english;
     }
 
+    // setD
+    html.dir = direction;
+    setDirection(direction === "ltr" ? "left" : "right");
     setTranslations(translations);
   }, [language]);
 
@@ -75,7 +80,9 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   }, [user]);
 
   return (
-    <LanguageContext.Provider value={{ language, translations, setLanguage }}>
+    <LanguageContext.Provider
+      value={{ language, translations, setLanguage, direction }}
+    >
       {children}
     </LanguageContext.Provider>
   );

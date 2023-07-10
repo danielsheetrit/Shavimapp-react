@@ -13,7 +13,7 @@ import { enqueueSnackbar } from "notistack";
 import axiosInstance from "../utils/axios";
 import useI18n from "../hooks/useI18n";
 
-interface event {
+interface IEvent {
   event_list: {
     9: string;
     10: string;
@@ -31,19 +31,20 @@ const eventsInitState = {
 };
 
 export default function AdminEventsEdit() {
-  const [events, setEvents] = useState<[] | event[]>([]);
+  const [events, setEvents] = useState<[] | IEvent[]>([]);
   const [currentEvent, setCurrentEvent] = useState(eventsInitState);
   const [currentLng, setCurrentLng] = useState("");
 
   const {
     translations: { adminSettings },
+    direction,
   } = useI18n();
 
   const getEvents = async () => {
     try {
       const { data } = await axiosInstance.get("/events");
 
-      const events: event[] = data.events;
+      const events: IEvent[] = data.events;
 
       setEvents(events);
       setCurrentEvent(events[0].event_list);
@@ -73,12 +74,21 @@ export default function AdminEventsEdit() {
 
   const updateEvents = async () => {
     try {
-      await axiosInstance.put("/events", {
+      const res = await axiosInstance.put("/events", {
         event: {
           event_list: currentEvent,
           language: currentLng,
         },
       });
+
+      const newEvent: IEvent = res.data.newEvent;
+      const index = events.findIndex(
+        (event) => event.language === newEvent.language
+      );
+      const eventsMock = [...events];
+      eventsMock.splice(index, 1, newEvent);
+
+      setEvents(eventsMock);
       enqueueSnackbar("Event updated succuessfully");
     } catch (err) {
       console.error(err);
@@ -92,7 +102,14 @@ export default function AdminEventsEdit() {
   return (
     <>
       <Stack sx={{ mt: 3 }} flexDirection="row" alignItems="center">
-        <Typography sx={{ textDecoration: "underline", mr: 1 }} variant="h6">
+        <Typography
+          sx={{
+            textDecoration: "underline",
+            mr: direction === "left" ? 1 : 0,
+            ml: direction === "left" ? 0 : 1,
+          }}
+          variant="h6"
+        >
           {adminSettings.eventsTitle}
         </Typography>
         <Typography variant="body2">{adminSettings.eventsSubTitle}</Typography>
@@ -164,7 +181,11 @@ export default function AdminEventsEdit() {
       </Stack>
 
       <Stack direction="row" justifyContent="end">
-        <Button onClick={updateEvents} sx={{ mt: 3, px: 2, alignSelf: "end" }}>
+        <Button
+          size="small"
+          onClick={updateEvents}
+          sx={{ mt: 3, px: 2, alignSelf: "end" }}
+        >
           {adminSettings.saveEventsBtn}
         </Button>
       </Stack>

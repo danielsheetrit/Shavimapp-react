@@ -35,6 +35,7 @@ export default function AdminSettings() {
   const isMobile = !useMediaQuery("(min-width:450px)");
   const {
     translations: { adminSettings },
+    direction,
   } = useI18n();
   const fetchedSettings = useSettings();
 
@@ -69,6 +70,7 @@ export default function AdminSettings() {
           sampling_cycle_in_minutes: samplingCycleInMinutes,
         },
       });
+
       enqueueSnackbar("Settings Updated Successfully", { variant: "success" });
     } catch (err) {
       console.error(err);
@@ -119,7 +121,13 @@ export default function AdminSettings() {
           alignItems={isMobile ? "start" : "center"}
           sx={{ mt: 2 }}
         >
-          <Stack sx={{ mr: 5, width: "100%" }}>
+          <Stack
+            sx={{
+              mr: direction === "left" ? 5 : 0,
+              ml: direction === "left" ? 0 : 5,
+              width: "100%",
+            }}
+          >
             <Typography sx={{ fontSize: 11 }}>
               {adminSettings.minBreakTimeLabel}
             </Typography>
@@ -151,7 +159,13 @@ export default function AdminSettings() {
           alignItems={isMobile ? "start" : "center"}
           sx={{ mt: 2 }}
         >
-          <Stack sx={{ mr: 5, width: "100%" }}>
+          <Stack
+            sx={{
+              mr: direction === "left" ? 5 : 0,
+              ml: direction === "left" ? 0 : 5,
+              width: "100%",
+            }}
+          >
             <Typography sx={{ fontSize: 11 }}>
               {adminSettings.countRefPerHourLabel}
             </Typography>
@@ -202,7 +216,10 @@ export default function AdminSettings() {
             label={adminSettings.RegisterAvailabilityCheckbox}
             name="registerPageAvailble"
             onChange={(ev) => handleCheckChange(ev as any)}
-            sx={{ mr: 5 }}
+            sx={{
+              mr: direction === "left" ? 5 : 0,
+              ml: direction === "left" ? 0 : 5,
+            }}
           />
           <FormControlLabel
             control={<Checkbox checked={settings.callForHelpAvailble} />}
@@ -213,7 +230,7 @@ export default function AdminSettings() {
         </Stack>
 
         <Stack direction="row" justifyContent="end">
-          <Button onClick={updateSettings} sx={{ mt: 3, px: 2 }}>
+          <Button size="small" onClick={updateSettings} sx={{ mt: 3, px: 2 }}>
             {adminSettings.saveGeneralSettingsBtn}
           </Button>
         </Stack>

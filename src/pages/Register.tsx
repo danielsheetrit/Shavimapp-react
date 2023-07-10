@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import {
@@ -19,6 +19,7 @@ import useI18n from "../hooks/useI18n";
 import { IRegisterForm } from "../interfaces/IRegisterForm";
 import PasswordButton from "../components/PasswordButton";
 import axiosInstance from "../utils/axios";
+import useSettings from "../hooks/useSettings";
 
 const registerFormState: IRegisterForm = {
   username: "",
@@ -38,6 +39,7 @@ export default function Register() {
   const theme = useTheme();
   const { translations } = useI18n();
   const navigation = useNavigate();
+  const settings = useSettings();
 
   const handleChange = (ev: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = ev.target;
@@ -67,10 +69,10 @@ export default function Register() {
     } = registerForm;
 
     const isIncrrectField = Object.keys(registerForm).some((key) => {
-      if (userType === 'admin' && key === 'workGroup') {
+      if (userType === "admin" && key === "workGroup") {
         return false;
       }
-    
+
       const field = registerForm[key];
       return (
         !field ||
@@ -113,7 +115,7 @@ export default function Register() {
       first_name: firstName,
       last_name: lastName,
       user_type: userType,
-      work_group: workGroup,
+      work_group: userType === "user" ? workGroup : 0,
     };
 
     const formData = new FormData();
@@ -137,6 +139,12 @@ export default function Register() {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    if (!settings.register_page_availble) {
+      navigation("/login");
+    }
+  }, [navigation, settings]);
 
   return (
     <Stack flexDirection="row" sx={{ height: "100vh" }}>
@@ -229,6 +237,7 @@ export default function Register() {
                 {translations.register.workGroupLabel}
               </Typography>
               <Select
+                disabled={registerForm.userType !== "user"}
                 sx={{ mt: 0.5, mr: 1 }}
                 value={registerForm.workGroup}
                 onChange={handleSelect}
