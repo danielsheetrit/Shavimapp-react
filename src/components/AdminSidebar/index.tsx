@@ -33,14 +33,16 @@ export default function AdminSiderbar({
 
   const { user, logout } = useAuth();
   const theme = useTheme();
-  const { direction } = useI18n()
+  const { direction } = useI18n();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   return (
-    <Box sx={{ display: "flex", direction: "rtl" }}>
+    <Box
+      sx={{ display: "flex", direction: direction === "left" ? "ltr" : "rtl" }}
+    >
       <AppBar
         position="fixed"
         sx={{
@@ -123,7 +125,7 @@ export default function AdminSiderbar({
           />
         </Drawer>
       </Box>
-  
+
       <Box
         component="main"
         sx={{
