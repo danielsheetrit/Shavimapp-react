@@ -7,7 +7,8 @@ export const withGuestGuard = (Component: React.ComponentType<any>) => {
     const { isAuthenticated, user } = useAuth();
 
     if (isAuthenticated && user) {
-      return <Navigate to={`/${user.user_type}`} />;
+      const relPath = user.user_type === "user" ? "/user" : "/admin";
+      return <Navigate to={relPath} />;
     }
 
     return <Component {...props} />;

@@ -69,7 +69,10 @@ export default function Register() {
     } = registerForm;
 
     const isIncrrectField = Object.keys(registerForm).some((key) => {
-      if (userType === "admin" && key === "workGroup") {
+      if (
+        (userType === "admin" || userType === "chief") &&
+        key === "workGroup"
+      ) {
         return false;
       }
 

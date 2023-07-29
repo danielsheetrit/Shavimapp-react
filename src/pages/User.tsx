@@ -59,11 +59,13 @@ export default function User() {
     }
   };
 
-  const handleHelp = async () => {
-    setCalledHelp(true);
+  const handleHelp = async (isHelp: boolean) => {
+    setCalledHelp(isHelp);
+
     await axiosInstance.post("/actions/help", {
       id: user?._id,
       name: `${user?.first_name} ${user?.last_name}`,
+      needHelp: isHelp,
     });
   };
 
@@ -123,7 +125,7 @@ export default function User() {
             {translations.userPage.callingForHelpModalTitle}
           </Typography>
           <Image url={CallForHelpPic} width={250} height={250} />
-          <Button sx={{ px: 4, mt: 1 }} onClick={() => setCalledHelp(false)}>
+          <Button sx={{ px: 4, mt: 1 }} onClick={() => handleHelp(false)}>
             {translations.userPage.getBackFromBreakBtn}
           </Button>
         </Stack>

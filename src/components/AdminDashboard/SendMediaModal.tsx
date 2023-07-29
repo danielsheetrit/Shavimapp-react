@@ -116,14 +116,14 @@ export default function SendMediaModal({
   };
 
   const SendMedia = async () => {
-    if (tab === 1 && !mediaToSend && !text) {
+    if (tab === 1 && mediaToSend === "none" && !text) {
       enqueueSnackbar("Either One of the fields has to be full", {
         variant: "error",
       });
       return;
     }
 
-    if (tab === 2 && !mediaToSend) {
+    if (tab === 2 && mediaToSend === "none") {
       enqueueSnackbar("Video must be selected!", {
         variant: "error",
       });

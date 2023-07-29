@@ -53,6 +53,7 @@ export default function AdminMenegament({
           first_name,
           last_name,
           avatar,
+          need_help
         } = params.row;
 
         return (
@@ -63,6 +64,7 @@ export default function AdminMenegament({
             firstName={first_name}
             lastName={last_name}
             avatar={avatar}
+            need_help={need_help}
           />
         );
       },
@@ -230,6 +232,7 @@ export default function AdminMenegament({
             borderRadius: 2,
             borderBottomLeftRadius: 0,
             borderBottomRightRadius: 0,
+            maxHeight: 450,
           }}
           rows={managementUsers}
           columns={columns}

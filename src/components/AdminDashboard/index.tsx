@@ -69,6 +69,7 @@ export default function AdminDashboard({
           first_name,
           last_name,
           avatar,
+          need_help,
         } = params.row;
 
         return (
@@ -79,6 +80,7 @@ export default function AdminDashboard({
             firstName={first_name}
             lastName={last_name}
             avatar={avatar}
+            need_help={need_help}
           />
         );
       },

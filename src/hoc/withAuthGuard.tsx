@@ -37,7 +37,8 @@ export const withAuthGuard = (
     }
 
     if (user && !accessibleRoles.includes(user.user_type)) {
-      return <Navigate to={`/${user.user_type}`} />;
+      const relPath = user.user_type === "user" ? "/user" : "/admin";
+      return <Navigate to={relPath} />;
     }
 
     return <Component {...props} />;

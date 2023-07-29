@@ -11,7 +11,11 @@ import Clock from "./Clock";
 import Modal from "./Modal";
 import useSettings from "../hooks/useSettings";
 
-export default function UserFooter({ handleHelp }: { handleHelp: () => void }) {
+export default function UserFooter({
+  handleHelp,
+}: {
+  handleHelp: (isHelp: boolean) => void;
+}) {
   const [open, setOpen] = useState(false);
 
   const { logout } = useAuth();
@@ -56,7 +60,7 @@ export default function UserFooter({ handleHelp }: { handleHelp: () => void }) {
         }}
       >
         <Button
-          onClick={() => handleHelp()}
+          onClick={() => handleHelp(true)}
           disabled={!settings.call_for_help_availble}
           sx={{ height: 40, px: 2, width: isTablet ? 150 : "90%" }}
         >

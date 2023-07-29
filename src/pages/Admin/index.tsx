@@ -110,10 +110,14 @@ export function Admin() {
     socket.on(events.USER_IN_DISTRESS, getUsers);
     socket.on(events.QUESTION_ANSWERED, getUsers);
     socket.on(events.COUNTER_INCREMENT, getUsers);
+    socket.on(events.USER_BREAK_VALIDATED, getUsers);
+    socket.on(events.CALL_FOR_HELP, getUsers);
 
     // ----------------------------------------------------------
     socket.on(events.CALL_FOR_HELP, (data) => {
-      setUserNeedHelp(data.name);
+      if (data.isActive) {
+        setUserNeedHelp(data.name);
+      }
     });
   }, [getUsers, socket]);
 
@@ -134,7 +138,7 @@ export function Admin() {
             {userNeedHelp} {translations.adminPage.callingForHelpAdmin}
           </Typography>
           <Button
-            sx={{ flexBasis: 100, mr: 1 }}
+            sx={{ flexBasis: 100, mr: 1, mt: 2 }}
             onClick={() => setUserNeedHelp("")}
           >
             {translations.userPage.getBackFromBreakBtn}

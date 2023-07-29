@@ -91,7 +91,7 @@
       "usersDatagrid": {
         "fullName": "Full name",
         "breaks": "Breaks",
-        "clicks": "counter",
+        "clicks": "Counter",
         "mood": "Mood",
         "distress": "Distress",
         "sendMediaBtn": "Send Media",

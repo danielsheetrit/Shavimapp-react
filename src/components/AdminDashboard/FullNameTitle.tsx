@@ -8,6 +8,7 @@ type FullNameProps = {
   firstName: string;
   lastName: string;
   avatar: Buffer;
+  need_help: boolean;
 };
 
 export default function FullNameTitle({
@@ -17,6 +18,7 @@ export default function FullNameTitle({
   firstName,
   lastName,
   avatar,
+  need_help,
 }: FullNameProps) {
   const nameColor = () => {
     if (onBreak) return "#ff3737";
@@ -47,7 +49,7 @@ export default function FullNameTitle({
       />
       {oddLogging() || (
         <Typography variant="caption" sx={{ color: nameColor() }}>
-          {firstName + " " + lastName}
+          {firstName + " " + lastName} {need_help && " 🖐"}
         </Typography>
       )}
     </Stack>

@@ -68,7 +68,7 @@
     "eventsSubTitle": "(עדכן כל שפה בנפרד)",
     "minBreakTimeLabel": "זמן מינימלי להפסקה (דקות)",
     "MinimalCountTimeLabel": "זמן מינימלי לספירה (דקות)",
-    "countRefPerHourLabel": "כמות מוצקים מצופה בשעה 1",
+    "countRefPerHourLabel": "כמות מצופה בשעה",
     "samplingCycleInMinutesLabel": "בדוק מצוקת משתמשים כל X (דקות)",
     "callForHelpCheckbox": "זמינות לקריאה לעזרה",
     "RegisterAvailabilityCheckbox": "זמינות להרשמה",

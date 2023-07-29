@@ -24,6 +24,10 @@ export default function MediaModels({ question }: MediaModalsType) {
   const handleSubmitModal = async () => {
     let answer: string;
     if (question.question_type === "feeling") {
+      if (!feelingAnswer) {
+        return;
+      }
+
       answer = feelingAnswer;
     } else {
       answer = "ok";
