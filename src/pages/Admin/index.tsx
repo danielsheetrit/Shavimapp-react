@@ -78,11 +78,11 @@ export function Admin() {
     }
 
     isFetchingRef.current = true;
-    const milisec = date.valueOf();
-
-    try {
+    const dateStr = date.toString();
+    
+    try { 
       const res = await axiosInstance.get(
-        `/actions/admin-dashboard/${milisec}/${workGroup}`
+        `/actions/admin-dashboard/${dateStr}/${workGroup}`
       );
       setUsers(res.data);
     } catch (err) {

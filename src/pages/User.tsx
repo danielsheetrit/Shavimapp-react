@@ -71,8 +71,11 @@ export default function User() {
 
   const handleCounter = async () => {
     try {
+      const offset = new Date().getTimezoneOffset();
       const response = await axiosInstance.put("/clicks", {
         id: user?._id,
+        offset,
+        milli: Date.now(),
       });
       setCount(response?.data?.count);
     } catch (err) {
@@ -82,7 +85,11 @@ export default function User() {
 
   const getCounter = async (id: string) => {
     try {
-      const { data } = await axiosInstance.get(`/clicks/${id}`);
+      const offset = new Date().getTimezoneOffset();
+      const milli = Date.now();
+      const { data } = await axiosInstance.get(
+        `/clicks/${id}/${milli}/${offset}`
+      );
       setCount(data.count);
     } catch (err) {
       console.error(err);
