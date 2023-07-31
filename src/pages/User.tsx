@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Button, Stack, Typography } from "@mui/material";
 import { IQuestion } from "../interfaces/IQuestion";
 
@@ -99,6 +99,17 @@ export default function User() {
       console.error(err);
     }
   };
+
+  useEffect(() => {
+    socket?.on(events.NEED_DISTRESS_JOB_ARGS, () => {
+      socket.emit(events.CLIENT_SENT_DISTRESS_JOB_ARGS, {
+        data: {
+          offset: new Date().getTimezoneOffset(),
+          milli: Date.now(),
+        },
+      });
+    });
+  }, [socket]);
 
   useEffect(() => {
     if (user) {
