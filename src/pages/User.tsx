@@ -38,15 +38,19 @@ export default function User() {
     try {
       setOnBreak(isBreak);
 
-      await axiosInstance.put("/breaks/status", {
+      await axiosInstance.put("/breaks/update", {
         id: user?._id,
         isBreak,
       });
 
       const getValidateBreak = debounce(async () => {
+        const offset = new Date().getTimezoneOffset();
+
         try {
           await axiosInstance.put("/breaks/validate", {
             id: user?._id,
+            offset,
+            milli: Date.now(),
           });
         } catch (err) {
           throw new Error(err.toString());

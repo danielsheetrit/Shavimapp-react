@@ -3,22 +3,22 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import dayjs from "dayjs";
 
 // locals
-import { events } from "../../config/socketIo";
-import AdminSidebar from "../../components/AdminSidebar";
-import AdminSettings from "../../components/AdminSettings";
-import AdminDashboard from "../../components/AdminDashboard";
-import { getLocalStorageItem } from "../../utils";
-import axiosInstance from "../../utils/axios";
-import Modal from "../../components/Modal";
-import AdminMenegament from "../../components/AdminManagement";
+import { events } from "../config/socketIo";
+import AdminSidebar from "../components/AdminSidebar";
+import AdminSettings from "../components/AdminSettings";
+import AdminDashboard from "../components/AdminDashboard";
+import { getLocalStorageItem } from "../utils";
+import axiosInstance from "../utils/axios";
+import Modal from "../components/Modal";
+import AdminMenegament from "../components/AdminManagement";
 
 // hooks
-import useSocket from "../../hooks/useSocket";
-import useAuth from "../../hooks/useAuth";
-import useI18n from "../../hooks/useI18n";
+import useSocket from "../hooks/useSocket";
+import useAuth from "../hooks/useAuth";
+import useI18n from "../hooks/useI18n";
 
-import { IUserDashboardType } from "../../interfaces/IUserDashboard";
-import { IUser } from "../../interfaces/IUser";
+import { IUserDashboardType } from "../interfaces/IUserDashboard";
+import { IUser } from "../interfaces/IUser";
 
 export type CmpType = "users" | "management" | "settings";
 
@@ -29,7 +29,7 @@ export function Admin() {
   const [userNeedHelp, setUserNeedHelp] = useState("");
 
   // fetch dependencies
-  const [date, setDate] = useState(dayjs().startOf("d"));
+  const [date, setDate] = useState(dayjs());
   const [workGroup, setWorkGroup] = useState<number>(
     getLocalStorageItem("workGroup") || 1
   );
@@ -78,11 +78,13 @@ export function Admin() {
     }
 
     isFetchingRef.current = true;
-    const dateStr = date.toString();
-    
-    try { 
+
+    const offset = new Date().getTimezoneOffset();
+    const milli = date.toDate().getTime();
+
+    try {
       const res = await axiosInstance.get(
-        `/actions/admin-dashboard/${dateStr}/${workGroup}`
+        `/actions/admin-dashboard/${milli}/${workGroup}/${offset}`
       );
       setUsers(res.data);
     } catch (err) {
