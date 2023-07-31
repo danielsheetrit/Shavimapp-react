@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Button, Stack, Typography } from "@mui/material";
 import { IQuestion } from "../interfaces/IQuestion";
 
