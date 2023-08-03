@@ -59,3 +59,10 @@ export function getLocalStorageItem(key: string) {
   const item = localStorage.getItem(key);
   return item ? JSON.parse(item) : null;
 }
+
+export const getGeoAndTime = () => {
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const milli = Date.now();
+
+  return { milli, timezone };
+};

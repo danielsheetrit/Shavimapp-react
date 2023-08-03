@@ -7,7 +7,7 @@ import { events } from "../config/socketIo";
 import AdminSidebar from "../components/AdminSidebar";
 import AdminSettings from "../components/AdminSettings";
 import AdminDashboard from "../components/AdminDashboard";
-import { getLocalStorageItem } from "../utils";
+import { getGeoAndTime, getLocalStorageItem } from "../utils";
 import axiosInstance from "../utils/axios";
 import Modal from "../components/Modal";
 import AdminMenegament from "../components/AdminManagement";
@@ -79,13 +79,17 @@ export function Admin() {
 
     isFetchingRef.current = true;
 
-    const offset = new Date().getTimezoneOffset();
+    const { timezone } = getGeoAndTime();
     const milli = date.toDate().getTime();
 
     try {
-      const res = await axiosInstance.get(
-        `/actions/admin-dashboard/${milli}/${workGroup}/${offset}`
-      );
+      const res = await axiosInstance.get("/actions/admin-dashboard", {
+        params: {
+          milli,
+          timezone,
+          workGroup,
+        },
+      });
       setUsers(res.data);
     } catch (err) {
       console.error(err);

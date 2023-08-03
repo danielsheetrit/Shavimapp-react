@@ -19,7 +19,7 @@ import MediaModels from "../components/MediaModals";
 // locals
 import BreakSVG from "../assets/img/break_ill.svg";
 import CallForHelpPic from "../assets/img/call-for-help.jpg";
-import { debounce } from "../utils";
+import { debounce, getGeoAndTime } from "../utils";
 import axiosInstance from "../utils/axios";
 import { events } from "../config/socketIo";
 
@@ -44,13 +44,13 @@ export default function User() {
       });
 
       const getValidateBreak = debounce(async () => {
-        const offset = new Date().getTimezoneOffset();
+        const { milli, timezone } = getGeoAndTime();
 
         try {
           await axiosInstance.put("/breaks/validate", {
             id: user?._id,
-            offset,
-            milli: Date.now(),
+            timezone,
+            milli,
           });
         } catch (err) {
           throw new Error(err.toString());
@@ -75,11 +75,12 @@ export default function User() {
 
   const handleCounter = async () => {
     try {
-      const offset = new Date().getTimezoneOffset();
+      const { milli, timezone } = getGeoAndTime();
+
       const response = await axiosInstance.put("/clicks", {
         id: user?._id,
-        offset,
-        milli: Date.now(),
+        timezone,
+        milli,
       });
       setCount(response?.data?.count);
     } catch (err) {
@@ -89,11 +90,14 @@ export default function User() {
 
   const getCounter = async (id: string) => {
     try {
-      const offset = new Date().getTimezoneOffset();
-      const milli = Date.now();
-      const { data } = await axiosInstance.get(
-        `/clicks/${id}/${milli}/${offset}`
-      );
+      const { milli, timezone } = getGeoAndTime();
+      const { data } = await axiosInstance.get("/clicks", {
+        params: {
+          id,
+          timezone,
+          milli,
+        },
+      });
       setCount(data.count);
     } catch (err) {
       console.error(err);
@@ -103,10 +107,7 @@ export default function User() {
   useEffect(() => {
     socket?.on(events.NEED_DISTRESS_JOB_ARGS, () => {
       socket.emit(events.CLIENT_SENT_DISTRESS_JOB_ARGS, {
-        data: {
-          offset: new Date().getTimezoneOffset(),
-          milli: Date.now(),
-        },
+        data: { ...getGeoAndTime() },
       });
     });
   }, [socket]);
