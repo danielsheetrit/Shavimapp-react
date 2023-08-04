@@ -136,6 +136,9 @@ export function Admin() {
     }
   }, [getUsers, date, currentCmp, workGroup]);
 
+  console.log('user need help', userNeedHelp);
+  console.log('work-group', workGroup)
+
   return (
     <>
       <AdminSidebar currentCmp={currentCmp} setCurrentCmp={setCurrentCmp}>
