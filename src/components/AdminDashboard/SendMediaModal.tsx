@@ -20,6 +20,7 @@ type EditModalType = {
   currentReceiver: string;
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  setQuestionedUsers: Dispatch<SetStateAction<string[]>>;
 };
 
 interface TabPanelProps {
@@ -87,6 +88,7 @@ export default function SendMediaModal({
   open,
   setOpen,
   currentReceiver,
+  setQuestionedUsers,
 }: EditModalType) {
   const [tab, setTab] = useState(0);
   const [media, setMedia] = useState<IMedia[] | []>([]);
@@ -145,6 +147,8 @@ export default function SendMediaModal({
       enqueueSnackbar("Message sent!", {
         variant: "success",
       });
+
+      setQuestionedUsers((prev) => [...prev, currentReceiver]);
     } catch (err) {
       console.error(err);
       enqueueSnackbar(err.message, {

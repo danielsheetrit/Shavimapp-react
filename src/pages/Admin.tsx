@@ -27,6 +27,7 @@ export function Admin() {
   const [managementUsers, setManagementUsers] = useState<IUser[] | []>([]);
   const [currentCmp, setCurrentCmp] = useState<CmpType>("users");
   const [userNeedHelp, setUserNeedHelp] = useState("");
+  const [questionedUsers, setQuestionedUsers] = useState<string[]>([]);
 
   // fetch dependencies
   const [date, setDate] = useState(dayjs());
@@ -34,6 +35,7 @@ export function Admin() {
     getLocalStorageItem("workGroup") || 1
   );
 
+  // hooks
   const isFetchingRef = useRef(false);
   const { user } = useAuth();
   const socket = useSocket();
@@ -61,6 +63,8 @@ export function Admin() {
             setDate={setDate}
             workGroup={workGroup}
             setWorkGroup={setWorkGroup}
+            questionedUsers={questionedUsers}
+            setQuestionedUsers={setQuestionedUsers}
           />
         );
         break;
@@ -70,9 +74,9 @@ export function Admin() {
     }
 
     return cmp;
-  }, [currentCmp, date, managementUsers, users, workGroup]);
+  }, [currentCmp, date, managementUsers, questionedUsers, users, workGroup]);
 
-  const getUsers = useCallback(async () => {
+  const getUsers = async () => {
     if (isFetchingRef.current) {
       return;
     }
@@ -96,7 +100,7 @@ export function Admin() {
     } finally {
       isFetchingRef.current = false;
     }
-  }, [date, workGroup]);
+  };
 
   async function getUsersForManagement() {
     try {
@@ -114,10 +118,24 @@ export function Admin() {
     socket.on(events.USER_IN_BREAK, getUsers);
     socket.on(events.USER_CAME_FROM_BREAK, getUsers);
     socket.on(events.USER_IN_DISTRESS, getUsers);
-    socket.on(events.QUESTION_ANSWERED, getUsers);
     socket.on(events.COUNTER_INCREMENT, getUsers);
     socket.on(events.USER_BREAK_VALIDATED, getUsers);
     socket.on(events.CALL_FOR_HELP, getUsers);
+
+    // ----------------------------------------------------------
+    socket.on(events.QUESTION_ANSWERED, async (data) => {
+      const id = data.userId as string;
+
+      const elIndex = questionedUsers.indexOf(id);
+
+      if (elIndex !== -1) {
+        const cloned = [...questionedUsers];
+        cloned.splice(elIndex, 1);
+        setQuestionedUsers(cloned);
+      }
+
+      await getUsers();
+    });
 
     // ----------------------------------------------------------
     socket.on(events.CALL_FOR_HELP, (data) => {
@@ -125,19 +143,21 @@ export function Admin() {
         setUserNeedHelp(data.name);
       }
     });
-  }, [getUsers, socket]);
+  }, [getUsers, questionedUsers, socket]);
+
+  console.log(questionedUsers);
 
   useEffect(() => {
     if (currentCmp === "users") {
       getUsers();
     }
+  }, [currentCmp, getUsers]);
+
+  useEffect(() => {
     if (currentCmp === "management") {
       getUsersForManagement();
     }
-  }, [getUsers, date, currentCmp, workGroup]);
-
-  console.log('user need help', userNeedHelp);
-  console.log('work-group', workGroup)
+  }, [currentCmp]);
 
   return (
     <>

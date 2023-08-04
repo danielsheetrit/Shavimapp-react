@@ -30,6 +30,8 @@ type AdminDashboardProps = {
   setDate: Dispatch<SetStateAction<Dayjs>>;
   workGroup: number;
   setWorkGroup: Dispatch<SetStateAction<number>>;
+  setQuestionedUsers: Dispatch<SetStateAction<string[]>>;
+  questionedUsers: string[];
 };
 
 export default function AdminDashboard({
@@ -38,6 +40,8 @@ export default function AdminDashboard({
   setDate,
   workGroup,
   setWorkGroup,
+  questionedUsers,
+  setQuestionedUsers,
 }: AdminDashboardProps) {
   const [currentReceiver, setCurrentReceiver] = useState("");
   const [open, setOpen] = useState(false);
@@ -145,6 +149,7 @@ export default function AdminDashboard({
           id={params.row._id}
           handleEdit={handleEdit}
           btnName={usersDashboard.usersDatagrid.sendMediaBtn}
+          questionedUsers={questionedUsers}
         />
       ),
     },
@@ -156,6 +161,7 @@ export default function AdminDashboard({
         open={open}
         setOpen={setOpen}
         currentReceiver={currentReceiver}
+        setQuestionedUsers={setQuestionedUsers}
       />
 
       <Typography variant="body1" color="initial">
