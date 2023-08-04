@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import dayjs from "dayjs";
 
@@ -76,7 +76,7 @@ export function Admin() {
     return cmp;
   }, [currentCmp, date, managementUsers, questionedUsers, users, workGroup]);
 
-  const getUsers = async () => {
+  const getUsers = useCallback(async () => {
     if (isFetchingRef.current) {
       return;
     }
@@ -100,7 +100,7 @@ export function Admin() {
     } finally {
       isFetchingRef.current = false;
     }
-  };
+  }, [date, workGroup]);
 
   async function getUsersForManagement() {
     try {
@@ -110,6 +110,23 @@ export function Admin() {
       console.error(err);
     }
   }
+
+  const handleAnswer = useCallback(async (data: any) => {
+    const id = data.userId as string;
+
+    console.log("QUESTION_ANSWERED User Id", id);
+    const elIndex = questionedUsers.indexOf(id);
+    console.log("INDEX User Id", id);``
+
+    if (elIndex !== -1) {
+      console.log("IN", id);
+      const cloned = [...questionedUsers];
+      cloned.splice(elIndex, 1);
+      setQuestionedUsers(cloned);
+    }
+
+    await getUsers();
+  }, [getUsers, questionedUsers]);
 
   useEffect(() => {
     if (!socket) return;
@@ -123,19 +140,7 @@ export function Admin() {
     socket.on(events.CALL_FOR_HELP, getUsers);
 
     // ----------------------------------------------------------
-    socket.on(events.QUESTION_ANSWERED, async (data) => {
-      const id = data.userId as string;
-
-      const elIndex = questionedUsers.indexOf(id);
-
-      if (elIndex !== -1) {
-        const cloned = [...questionedUsers];
-        cloned.splice(elIndex, 1);
-        setQuestionedUsers(cloned);
-      }
-
-      await getUsers();
-    });
+    socket.on(events.QUESTION_ANSWERED, handleAnswer);
 
     // ----------------------------------------------------------
     socket.on(events.CALL_FOR_HELP, (data) => {
@@ -143,7 +148,7 @@ export function Admin() {
         setUserNeedHelp(data.name);
       }
     });
-  }, [getUsers, questionedUsers, socket]);
+  }, [getUsers, handleAnswer, questionedUsers, socket]);
 
   console.log(questionedUsers);
 
