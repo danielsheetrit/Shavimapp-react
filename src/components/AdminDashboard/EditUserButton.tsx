@@ -5,7 +5,7 @@ type EditUserButtonProps = {
   id: string;
   handleEdit: (id: string) => void;
   btnName: string;
-  questionedUsers: string[];
+  questionedUsers?: string[];
 };
 
 export default function EditUserButton({
@@ -16,7 +16,7 @@ export default function EditUserButton({
 }: EditUserButtonProps) {
   const theme = useTheme();
 
-  const isQuestionSent = questionedUsers.includes(id);
+  const isQuestionSent = questionedUsers?.includes(id);
   return (
     <Button
       sx={{
